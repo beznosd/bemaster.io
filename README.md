@@ -1,3 +1,5 @@
 # bemaster.io
 
-This is a `dev` branch, where we will develop our application and then merge it with production branch `master`.
+Start your mastery way now!
+
+This is a `master` branch -> our production ;)
