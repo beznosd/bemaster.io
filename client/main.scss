@@ -1,0 +1,28 @@
+$indigoColor: #42a5f5;
+
+#timer-button-block {
+	margin-top: 120px;
+}
+
+.timer-button {
+	display: inline-block;
+	width: 280px;
+	height: 280px;
+	border: 3px solid $indigoColor;
+	border-radius: 50%;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+.timer-button:before {
+    content: '';
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.timer-button i {
+	vertical-align: middle;
+	color: #cfd8dc;
+	font-size: 9rem;
+}
