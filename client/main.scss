@@ -1,10 +1,36 @@
 $indigoColor: #42a5f5;
+$blueGreyLightenColor-1: #90a4ae;
+$blueGreyLightenColor-4: #cfd8dc;
 
-#timer-button-block {
+@mixin user-select-none() {
+	-webkit-user-select: none;  /* Chrome all / Safari all */
+	-moz-user-select: none;     /* Firefox all */
+	-ms-user-select: none;      /* IE 10+ */
+	user-select: none;          /* Likely future */   
+}
+
+@mixin timer-arrow-nums-vertical-center() {
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	margin: auto;
+	height: 45%;
+	position: absolute;
+}
+
+@mixin timer-arrow-nums-same-styles() {
+	@include timer-arrow-nums-vertical-center();
+	@include user-select-none;
+	animation-duration: .4s;
+}
+
+#timer-block {
 	margin-top: 120px;
 }
 
-.timer-button {
+.timer {
+	position: relative;
 	display: inline-block;
 	width: 280px;
 	height: 280px;
@@ -14,15 +40,39 @@ $indigoColor: #42a5f5;
 	vertical-align: middle;
 }
 
-.timer-button:before {
+.timer:before {
     content: '';
     height: 100%;
     display: inline-block;
     vertical-align: middle;
 }
 
-.timer-button i {
-	vertical-align: middle;
-	color: #cfd8dc;
-	font-size: 9rem;
+.timer-start_arrow {
+	@include timer-arrow-nums-same-styles;
+	color: $blueGreyLightenColor-4;
+	font-size: 8.2rem !important;
+	/* display: none !important; */
 }
+
+.timer-nums {
+	@include timer-arrow-nums-same-styles;
+	color: $blueGreyLightenColor-1;
+	font-size: 5.5rem;
+	font-weight: 200;
+	display: none;
+}
+
+.timer-pause_time{
+	@include user-select-none;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 8%;
+	margin: 0 auto;
+	font-size: 2rem;
+	font-weight: 300;
+	color: $blueGreyLightenColor-1;
+	animation-duration: .4s;
+	display: none;
+}
+

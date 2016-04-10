@@ -13,8 +13,8 @@ Meteor.startup(() => {
 	        });
 	    }
 	});
-	
-	render(<TimerButton />, document.getElementById('timer-button-block'));
+
+	render(<TimerButton />, document.getElementById('timer-block'));
 });
 
 
