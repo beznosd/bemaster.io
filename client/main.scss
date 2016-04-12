@@ -9,21 +9,29 @@ $blueGreyLightenColor-4: #cfd8dc;
 	user-select: none;          /* Likely future */   
 }
 
-@mixin timer-arrow-nums-vertical-center() {
-	top: 0;
+@mixin horizontal-center-absolute-element() {
+	position: absolute;
 	left: 0;
-	bottom: 0;
 	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Absolute center - vertical and horizontal */
+@mixin timer-arrow-and-nums-absolute-center() {
+	@include horizontal-center-absolute-element;
+	top: 0;
+	bottom: 0;
 	margin: auto;
 	height: 45%;
-	position: absolute;
 }
 
 @mixin timer-arrow-nums-same-styles() {
-	@include timer-arrow-nums-vertical-center();
+	@include timer-arrow-and-nums-absolute-center;
 	@include user-select-none;
 	animation-duration: .4s;
 }
+
 
 #timer-block {
 	margin-top: 120px;
@@ -62,13 +70,10 @@ $blueGreyLightenColor-4: #cfd8dc;
 	display: none;
 }
 
-.timer-pause_time{
+.timer-pause_time {
 	@include user-select-none;
-	position: absolute;
-	left: 0;
-	right: 0;
+	@include horizontal-center-absolute-element;
 	bottom: 8%;
-	margin: 0 auto;
 	font-size: 2rem;
 	font-weight: 300;
 	color: $blueGreyLightenColor-1;
