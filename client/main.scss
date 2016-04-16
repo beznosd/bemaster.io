@@ -18,18 +18,17 @@ $blueGreyLightenColor-4: #cfd8dc;
 }
 
 /* Absolute center - vertical and horizontal */
-@mixin timer-arrow-and-nums-absolute-center() {
+@mixin horizontal-vertical-center-absolute-element() {
 	@include horizontal-center-absolute-element;
 	top: 0;
 	bottom: 0;
 	margin: auto;
-	height: 45%;
 }
 
 @mixin timer-arrow-nums-same-styles() {
-	@include timer-arrow-and-nums-absolute-center;
+	@include horizontal-vertical-center-absolute-element;
 	@include user-select-none;
-	animation-duration: .4s;
+	animation-duration: .3s;
 }
 
 
@@ -55,20 +54,36 @@ $blueGreyLightenColor-4: #cfd8dc;
     vertical-align: middle;
 }
 
+/* Timer start arrow */
+
 .timer-start_arrow {
 	@include timer-arrow-nums-same-styles;
-	color: $blueGreyLightenColor-4;
-	font-size: 8.2rem !important;
-	/* display: none !important; */
+	height: 40%;
 }
+
+.timer-start_arrow .triangle {
+	@include horizontal-vertical-center-absolute-element;
+	display: block;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 33px 0 33px 55px;
+	border-color: transparent transparent transparent $blueGreyLightenColor-4;
+}
+
+/* Timer big nums */
 
 .timer-nums {
 	@include timer-arrow-nums-same-styles;
 	color: $blueGreyLightenColor-1;
+	padding-top: 5px;
 	font-size: 5.5rem;
 	font-weight: 200;
-	display: none;
+	height: 45%;
+	/* display: none; */
 }
+
+/* Timer pause time */
 
 .timer-pause_time {
 	@include user-select-none;
@@ -78,6 +93,13 @@ $blueGreyLightenColor-4: #cfd8dc;
 	font-weight: 300;
 	color: $blueGreyLightenColor-1;
 	animation-duration: .4s;
+	/* display: none; */
+}
+
+.hidden {
 	display: none;
 }
 
+.display-block {
+	display: block;
+}
