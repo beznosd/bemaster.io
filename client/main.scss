@@ -6,6 +6,7 @@ $blueGreyLightenColor-4: #cfd8dc;
 	-webkit-user-select: none;  /* Chrome all / Safari all */
 	-moz-user-select: none;     /* Firefox all */
 	-ms-user-select: none;      /* IE 10+ */
+	-o-user-select: none;		/* Opera */
 	user-select: none;          /* Likely future */   
 }
 
@@ -25,12 +26,13 @@ $blueGreyLightenColor-4: #cfd8dc;
 	margin: auto;
 }
 
-@mixin timer-arrow-nums-same-styles() {
-	@include horizontal-vertical-center-absolute-element;
-	@include user-select-none;
-	animation-duration: .3s;
+@mixin fade-out() {
+    -o-transition: opacity .2s ease;
+    -ms-transition: opacity .2s ease;
+    -moz-transition: opacity .2s ease;
+    -webkit-transition: opacity .2s ease;
+    transition: opacity .2s ease; 
 }
-
 
 #timer-block {
 	margin-top: 120px;
@@ -57,7 +59,10 @@ $blueGreyLightenColor-4: #cfd8dc;
 /* Timer start arrow */
 
 .timer-start_arrow {
-	@include timer-arrow-nums-same-styles;
+	@include horizontal-vertical-center-absolute-element;
+	@include user-select-none;
+	@include fade-out;
+	animation-duration: .3s;
 	height: 40%;
 }
 
@@ -71,23 +76,12 @@ $blueGreyLightenColor-4: #cfd8dc;
 	border-color: transparent transparent transparent $blueGreyLightenColor-4;
 }
 
-/* Timer big nums */
-
-.timer-nums {
-	@include timer-arrow-nums-same-styles;
-	color: $blueGreyLightenColor-1;
-	padding-top: 5px;
-	font-size: 5.5rem;
-	font-weight: 200;
-	height: 45%;
-	/* display: none; */
-}
-
 /* Timer pause time */
 
 .timer-pause_time {
 	@include user-select-none;
 	@include horizontal-center-absolute-element;
+	@include fade-out;
 	bottom: 8%;
 	font-size: 2rem;
 	font-weight: 300;
@@ -96,10 +90,28 @@ $blueGreyLightenColor-4: #cfd8dc;
 	/* display: none; */
 }
 
+/* Timer big nums */
+
+.timer-nums {
+	@include horizontal-vertical-center-absolute-element;
+	@include user-select-none;
+	@include fade-out;
+	animation-duration: .4s;
+	color: $blueGreyLightenColor-1;
+	padding-top: 5px;
+	font-size: 5.5rem;
+	font-weight: 200;
+	height: 45%;
+	/* display: none; */
+}
+
+
 .hidden {
+	opacity:0;
 	display: none;
 }
 
 .display-block {
+	opacity: 1;
 	display: block;
 }

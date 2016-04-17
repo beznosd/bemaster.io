@@ -27,9 +27,20 @@ class TimerButton extends Component {
 	// run or pause timer
 	timer() {
 
+		/*setTimeout(function(){
+			Meteor.call('timerTime.insert', this.state.s, this.state.m, this.state.h, this.state.ticking);
+		}.bind(this), 350);*/
+
 		if ( this.state.ticking ) {
 
-			i = Meteor.setInterval(function(){
+			window.i = Meteor.setInterval(function(){
+
+				if (!this.state.ticking) {
+					Meteor.call('timerTime.insert', this.state.s, this.state.m, this.state.h, this.state.ticking);
+					Meteor.clearInterval(window.i);
+					return;
+				}
+
 				if( this.state.s < 59 ) {
 					let s = this.state.s + 1;
 					this.setState({s: s});
@@ -50,8 +61,7 @@ class TimerButton extends Component {
 
 		} else {
 			Meteor.call('timerTime.insert', this.state.s, this.state.m, this.state.h, this.state.ticking);
-
-			Meteor.clearInterval(i);
+			Meteor.clearInterval(window.i);
 		}
 		
 	}
@@ -59,19 +69,21 @@ class TimerButton extends Component {
 	// run function timer() and show/hide neccessary elements
 	toggleTimer() {
 
-		if (this.state.ticking === false) {
-			this.startTimerView();
-			// update state with data from DB before start timer
-			this.updateTimeStates();
+		// update state with data from DB before start timer
+		this.updateComponentStates();
 
+		if (this.state.ticking === false) {
+			// this.startTimerView();
 			this.state.ticking = true;
 		} else {
-			this.pauseTimerView();
-
+			// this.pauseTimerView();
 			this.state.ticking = false;
 		}
 
+		Meteor.call('timerTime.insert', this.state.s, this.state.m, this.state.h, this.state.ticking);
+
 		this.timer();
+
 	}
 
 	startTimerView() {
@@ -79,12 +91,11 @@ class TimerButton extends Component {
 		let timerStartArrow = this.refs['timerStartArrow'];
 		let timerPauseTime = this.refs['timerPauseTime'];
 
-		$(timerStartArrow).fadeOut(150);
-		$(timerPauseTime).fadeOut(150);
+		$(timerStartArrow).removeClass('display-block').addClass('hidden');
+		$(timerPauseTime).removeClass('display-block').addClass('hidden');
 
-		setTimeout(function() {
-			$(timerNums).show().animateCss('zoomIn');
-		}, 150);
+		$(timerNums).removeClass('hidden').addClass('display-block').animateCss('zoomIn');
+
 	}
 
 	pauseTimerView() {
@@ -92,19 +103,20 @@ class TimerButton extends Component {
 		let timerStartArrow = this.refs['timerStartArrow'];
 		let timerPauseTime = this.refs['timerPauseTime'];
 
-		$(timerNums).fadeOut(150);
-		
-		setTimeout(function() {
-			$(timerStartArrow).show().animateCss('zoomIn');
-			$(timerPauseTime).show().animateCss('zoomIn');
-		}, 150);
+		$(timerNums).removeClass('display-block').addClass('hidden');
+		// console.log('test');
+		// setTimeout(function() {
+		$(timerStartArrow).removeClass('hidden').addClass('display-block').animateCss('zoomIn');
+		$(timerPauseTime).removeClass('hidden').addClass('display-block').animateCss('zoomIn');
+		// }, 150);
 	}
 
+	// update data on all clients' components
 	componentWillReceiveProps(nextProps) {
-		// console.log(this.state.ticking);
-		this.setState({ticking: nextProps.timerTime[0].ticking});
-		// console.log(this.state.ticking);
-		// console.log(nextProps);
+		this.setState({ ticking: nextProps.timerTime[0].ticking });
+		this.setState({ s: nextProps.timerTime[0].seconds });
+		this.setState({ m: nextProps.timerTime[0].minutes });
+		this.setState({ h: nextProps.timerTime[0].hours });
 	}
 
 
@@ -130,7 +142,7 @@ class TimerButton extends Component {
 	}
 
 	// Update time states to recently logged time if it exists in db 
-	updateTimeStates() {
+	updateComponentStates() {
 		if ( this.props.timerTime[0] ) {
 			if ( this.props.timerTime[0].seconds ) {
 				this.setState({ s: this.props.timerTime[0].seconds });
@@ -148,35 +160,48 @@ class TimerButton extends Component {
 	}
 
 	render() {
+		// console.log(this.state.ticking);
+		// console.log(this.state.s);
+
 		if (this.props.timerTime[0]) {
 
-			// console.log(this.props.timerTime[0].ticking);
+			/*if (this.props.timerTime[0].ticking == true) {
+				this.startTimerView();
+			} else {
+				this.pauseTimerView();
+			}*/
 
 			const timerNumsClasses = classnames({
 				hidden: !this.props.timerTime[0].ticking,
 				'display-block': this.props.timerTime[0].ticking,
-				'timer-nums': true
+				'timer-nums': true,
+				animated: true,
+				zoomIn: true
 			});
 			const timerPauseTimeClasses = classnames({
 				hidden: this.props.timerTime[0].ticking,
 				'display-block': !this.props.timerTime[0].ticking,
-				'timer-pause_time': true
+				'timer-pause_time': true,
+				animated: true,
+				zoomIn: true 
 			});
 			const timerStartArrowClasses = classnames({
 				hidden: this.props.timerTime[0].ticking,
 				'display-block': !this.props.timerTime[0].ticking,
 				'timer-start_arrow': true,
+				animated: true,
+				zoomIn: true 
 			});
 
 			return (
 				<span onClick={this.toggleTimer.bind(this)} className="timer">
-					<span ref="timerNums" className={timerNumsClasses}>
+					<span ref="timerNums" className={timerNumsClasses} style={{display: ''}}>
 						{this.renderTime()}
 					</span>
-					<div ref="timerStartArrow" className={timerStartArrowClasses}>
+					<div ref="timerStartArrow" className={timerStartArrowClasses} style={{display: ''}}>
 						<i className="triangle"></i>
 					</div>
-					<span ref="timerPauseTime" className={timerPauseTimeClasses}>
+					<span ref="timerPauseTime" className={timerPauseTimeClasses} style={{display: ''}}>
 						{this.renderTime()}
 					</span>
 				</span>
@@ -186,13 +211,13 @@ class TimerButton extends Component {
 
 			return (
 				<span onClick={this.toggleTimer.bind(this)} className="timer">
-					<span ref="timerNums" className='timer-nums hidden'>
+					<span ref="timerNums" className='timer-nums hidden' style={{display: ''}}>
 						{this.renderTime()}
 					</span>
-					<div ref="timerStartArrow" className="timer-start_arrow">
+					<div ref="timerStartArrow" className="timer-start_arrow" style={{display: ''}}>
 						<i className="triangle"></i>
 					</div>
-					<span ref="timerPauseTime" className='timer-pause_time hidden'>
+					<span ref="timerPauseTime" className='timer-pause_time hidden' style={{display: ''}}>
 						{this.renderTime()}
 					</span>
 				</span>
@@ -212,6 +237,5 @@ export default createContainer(() => {
 
 	return {
 		timerTime: TimerTime.find({userId: 1}).fetch(),
-		// ticking: TimerTime.find({userId: 1}, {fields: {ticking: 1}}).fetch()
 	};
 }, TimerButton);
