@@ -21,7 +21,7 @@ class TimerButton extends Component {
 
 	// minimeze font of nums if hours was appeared inside the timer
 	minimizeNumsFont() {
-		$('.timer-nums').css({'font-size':'4rem', 'height':'35%'});
+		$( this.refs['timerNums'] ).css({'font-size':'4rem', 'height':'35%'});
 	}
 
 	// run or pause timer
@@ -50,9 +50,6 @@ class TimerButton extends Component {
 				} else if ( this.state.m == 59) {
 					let h = this.state.h + 1;
 					this.setState({s: 0, m: 0, h: h});
-				}
-				if (this.state.h >= 1) {
-					this.minimizeNumsFont();
 				}
 
 				Meteor.call('timerTime.insert', this.state.s, this.state.m, this.state.h, this.state.ticking);
@@ -117,8 +114,11 @@ class TimerButton extends Component {
 		this.setState({ s: nextProps.timerTime[0].seconds });
 		this.setState({ m: nextProps.timerTime[0].minutes });
 		this.setState({ h: nextProps.timerTime[0].hours });
-	}
 
+		if (nextProps.timerTime[0].hours > 0) {
+			this.minimizeNumsFont();
+		}
+	}
 
 	renderTime() {
 		// at first launch render time from DB, then when timer will work will, work this
