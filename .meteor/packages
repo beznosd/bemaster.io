@@ -19,6 +19,6 @@ autopublish             # Publish all data to the clients (for prototyping)
 insecure                # Allow all DB writes from clients (for prototyping)
 materialize:materialize
 fourseven:scss
-iron:router
 standard-minifier-css
 standard-minifier-js
+d3js:d3
