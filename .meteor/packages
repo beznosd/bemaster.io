@@ -21,3 +21,6 @@ standard-minifier-css
 standard-minifier-js
 natestrauser:animate-css
 react-meteor-data
+kadira:flow-router
+accounts-ui
+accounts-password

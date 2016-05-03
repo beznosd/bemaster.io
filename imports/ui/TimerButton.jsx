@@ -83,6 +83,7 @@ class TimerButton extends Component {
 
 	}
 
+	// unused function
 	startTimerView() {
 		let timerNums = this.refs['timerNums'];
 		let timerStartArrow = this.refs['timerStartArrow'];
@@ -95,6 +96,7 @@ class TimerButton extends Component {
 
 	}
 
+	// unsued function
 	pauseTimerView() {
 		let timerNums = this.refs['timerNums'];
 		let timerStartArrow = this.refs['timerStartArrow'];
@@ -164,12 +166,6 @@ class TimerButton extends Component {
 		// console.log(this.state.s);
 
 		if (this.props.timerTime[0]) {
-
-			/*if (this.props.timerTime[0].ticking == true) {
-				this.startTimerView();
-			} else {
-				this.pauseTimerView();
-			}*/
 
 			const timerNumsClasses = classnames({
 				hidden: !this.props.timerTime[0].ticking,

@@ -1,8 +1,9 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { render } from 'react-dom';
+import '../imports/startup/routes.jsx';
 
-import TimerButton from '../imports/ui/TimerButton.jsx';
+// import MainLayout from '../imports/ui/MainLayout.jsx';
 
 Meteor.startup(() => {
 	$.fn.extend({
@@ -14,7 +15,7 @@ Meteor.startup(() => {
 	    }
 	});
 
-	render(<TimerButton />, document.getElementById('timer-block'));
+	// render(<TimerButton />, document.getElementById('timer-block'));
 });
 
 
