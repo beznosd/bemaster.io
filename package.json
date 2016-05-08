@@ -6,8 +6,10 @@
   },
   "dependencies": {
     "classnames": "^2.2.3",
+    "d3": "^3.5.17",
     "react": "^15.0.2",
     "react-addons-pure-render-mixin": "^15.0.2",
-    "react-dom": "^15.0.2"
+    "react-dom": "^15.0.2",
+    "underscore": "^1.8.3"
   }
 }

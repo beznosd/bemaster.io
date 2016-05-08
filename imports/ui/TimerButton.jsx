@@ -60,7 +60,7 @@ class TimerButton extends Component {
 			Meteor.call('timerTime.insert', this.state.s, this.state.m, this.state.h, this.state.ticking);
 			Meteor.clearInterval(window.i);
 		}
-		
+
 	}
 
 	// run function timer() and show/hide neccessary elements
@@ -81,33 +81,6 @@ class TimerButton extends Component {
 
 		this.timer();
 
-	}
-
-	// unused function
-	startTimerView() {
-		let timerNums = this.refs['timerNums'];
-		let timerStartArrow = this.refs['timerStartArrow'];
-		let timerPauseTime = this.refs['timerPauseTime'];
-
-		$(timerStartArrow).removeClass('display-block').addClass('hidden');
-		$(timerPauseTime).removeClass('display-block').addClass('hidden');
-
-		$(timerNums).removeClass('hidden').addClass('display-block').animateCss('zoomIn');
-
-	}
-
-	// unsued function
-	pauseTimerView() {
-		let timerNums = this.refs['timerNums'];
-		let timerStartArrow = this.refs['timerStartArrow'];
-		let timerPauseTime = this.refs['timerPauseTime'];
-
-		$(timerNums).removeClass('display-block').addClass('hidden');
-		// console.log('test');
-		// setTimeout(function() {
-		$(timerStartArrow).removeClass('hidden').addClass('display-block').animateCss('zoomIn');
-		$(timerPauseTime).removeClass('hidden').addClass('display-block').animateCss('zoomIn');
-		// }, 150);
 	}
 
 	// update data on all clients' components
@@ -143,7 +116,7 @@ class TimerButton extends Component {
 		}
 	}
 
-	// Update time states to recently logged time if it exists in db 
+	// Update time states to recently logged time if it exists in db
 	updateComponentStates() {
 		if ( this.props.timerTime[0] ) {
 			if ( this.props.timerTime[0].seconds ) {
@@ -179,14 +152,14 @@ class TimerButton extends Component {
 				'display-block': !this.props.timerTime[0].ticking,
 				'timer-pause_time': true,
 				animated: true,
-				zoomIn: true 
+				zoomIn: true
 			});
 			const timerStartArrowClasses = classnames({
 				hidden: this.props.timerTime[0].ticking,
 				'display-block': !this.props.timerTime[0].ticking,
 				'timer-start_arrow': true,
 				animated: true,
-				zoomIn: true 
+				zoomIn: true
 			});
 
 			return (
@@ -235,3 +208,29 @@ export default createContainer(() => {
 		timerTime: TimerTime.find({userId: 1}).fetch(),
 	};
 }, TimerButton);
+
+// unused function
+// startTimerView() {
+// 	let timerNums = this.refs['timerNums'];
+// 	let timerStartArrow = this.refs['timerStartArrow'];
+// 	let timerPauseTime = this.refs['timerPauseTime'];
+//
+// 	$(timerStartArrow).removeClass('display-block').addClass('hidden');
+// 	$(timerPauseTime).removeClass('display-block').addClass('hidden');
+//
+// 	$(timerNums).removeClass('hidden').addClass('display-block').animateCss('zoomIn');
+//
+// }
+//
+// pauseTimerView() {
+// 	let timerNums = this.refs['timerNums'];
+// 	let timerStartArrow = this.refs['timerStartArrow'];
+// 	let timerPauseTime = this.refs['timerPauseTime'];
+//
+// 	$(timerNums).removeClass('display-block').addClass('hidden');
+// 	console.log('test');
+// 	setTimeout(function() {
+// 	$(timerStartArrow).removeClass('hidden').addClass('display-block').animateCss('zoomIn');
+// 	$(timerPauseTime).removeClass('hidden').addClass('display-block').animateCss('zoomIn');
+// 	}, 150);
+// }
