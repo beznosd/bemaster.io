@@ -1,4 +1,4 @@
-$indigoColor: #42a5f5;
+$blueLighten-1: #42a5f5;
 $blueGreyLightenColor-1: #90a4ae;
 $blueGreyLightenColor-4: #cfd8dc;
 
@@ -43,7 +43,7 @@ $blueGreyLightenColor-4: #cfd8dc;
 	display: inline-block;
 	width: 280px;
 	height: 280px;
-	border: 3px solid $indigoColor;
+	border: 3px solid $blueLighten-1;
 	border-radius: 50%;
 	cursor: pointer;
 	vertical-align: middle;
@@ -114,4 +114,20 @@ $blueGreyLightenColor-4: #cfd8dc;
 .display-block {
 	opacity: 1;
 	display: block;
+}
+
+/* Header */
+
+.nav-header {
+	padding-left: 30px;
+	padding-right: 30px;
+	background-color: #fff;
+}
+
+.nav-header img {
+	height: 64px;
+}
+
+.nav-header ul li a {
+	color: #424242;
 }

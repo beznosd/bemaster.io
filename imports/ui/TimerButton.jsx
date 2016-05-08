@@ -190,36 +190,50 @@ class TimerButton extends Component {
 			});
 
 			return (
-				<span onClick={this.toggleTimer.bind(this)} className="timer">
-					<span ref="timerNums" className={timerNumsClasses} style={{display: ''}}>
-						{this.renderTime()}
-					</span>
-					<div ref="timerStartArrow" className={timerStartArrowClasses} style={{display: ''}}>
-						<i className="triangle"></i>
+				<div className="row section">
+					<div className="col s12">
+						<div className="center-align timer-block">
+							<span onClick={this.toggleTimer.bind(this)} className="timer">
+								<span ref="timerNums" className={timerNumsClasses} style={{display: ''}}>
+									{this.renderTime()}
+								</span>
+								<div ref="timerStartArrow" className={timerStartArrowClasses} style={{display: ''}}>
+									<i className="triangle"></i>
+								</div>
+								<span ref="timerPauseTime" className={timerPauseTimeClasses} style={{display: ''}}>
+									{this.renderTime()}
+								</span>
+							</span>
+						</div>
 					</div>
-					<span ref="timerPauseTime" className={timerPauseTimeClasses} style={{display: ''}}>
-						{this.renderTime()}
-					</span>
-				</span>
+				</div>
 			);
 
 		} else {
 
 			return (
-				<span onClick={this.toggleTimer.bind(this)} className="timer">
-					<span ref="timerNums" className='timer-nums hidden' style={{display: ''}}>
-						{this.renderTime()}
-					</span>
-					<div ref="timerStartArrow" className="timer-start_arrow" style={{display: ''}}>
-						<i className="triangle"></i>
+				<div className="row section">
+					<div className="col s12">
+						<div className="center-align timer-block">
+							<span onClick={this.toggleTimer.bind(this)} className="timer">
+								<span ref="timerNums" className='timer-nums hidden' style={{display: ''}}>
+									{this.renderTime()}
+								</span>
+								<div ref="timerStartArrow" className="timer-start_arrow" style={{display: ''}}>
+									<i className="triangle"></i>
+								</div>
+								<span ref="timerPauseTime" className='timer-pause_time hidden' style={{display: ''}}>
+									{this.renderTime()}
+								</span>
+							</span>
+						</div>
 					</div>
-					<span ref="timerPauseTime" className='timer-pause_time hidden' style={{display: ''}}>
-						{this.renderTime()}
-					</span>
-				</span>
+				</div>
 			);
 
 		}
+
+					
 	}
 
 }
