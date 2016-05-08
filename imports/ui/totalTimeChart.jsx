@@ -5,7 +5,6 @@ import {_} from 'underscore';
 class Chart extends Component{
   constructor(props){
     super(props);
-
   }
   render() {
     return (
