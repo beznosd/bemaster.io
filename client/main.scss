@@ -1,6 +1,8 @@
 $blueLighten-1: #42a5f5;
 $blueGreyLightenColor-1: #90a4ae;
 $blueGreyLightenColor-4: #cfd8dc;
+$green: #4caf50;
+$red: #f44336;
 
 @mixin user-select-none() {
 	-webkit-user-select: none;  /* Chrome all / Safari all */
@@ -35,7 +37,7 @@ $blueGreyLightenColor-4: #cfd8dc;
 }
 
 .timer-block {
-	margin-top: 120px;
+	margin-top: 60px;
 }
 
 .timer {
@@ -122,6 +124,7 @@ $blueGreyLightenColor-4: #cfd8dc;
 	padding-left: 30px;
 	padding-right: 30px;
 	background-color: #fff;
+	margin-bottom: 70px;
 }
 
 .nav-header img {
@@ -131,3 +134,70 @@ $blueGreyLightenColor-4: #cfd8dc;
 .nav-header ul li a {
 	color: #424242;
 }
+
+/* Login SignUp */
+
+.btn-login-signup {
+	width: 100%;
+}
+
+/* label focus color */
+.input-field input[type=text]:focus + label {
+	color: $green;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus {
+	border-bottom: 1px solid $green;
+	box-shadow: 0 1px 0 0 $green;
+}
+/* valid color */
+.input-field input[type=text].valid {
+	border-bottom: 1px solid $green;
+	box-shadow: 0 1px 0 0 $green;
+}
+/* invalid color */
+.input-field input[type=text].invalid {
+	border-bottom: 1px solid $red;
+	box-shadow: 0 1px 0 0 $red;
+}
+
+/* email focus color */
+.input-field input[type=email]:focus + label {
+	color: $green;
+}
+/* email underline focus color */
+.input-field input[type=email]:focus {
+	border-bottom: 1px solid $green;
+	box-shadow: 0 1px 0 0 $green;
+}
+/* valid color */
+.input-field input[type=email].valid {
+	border-bottom: 1px solid $green;
+	box-shadow: 0 1px 0 0 $green;
+}
+/* invalid color */
+.input-field input[type=email].invalid {
+	border-bottom: 1px solid $red;
+	box-shadow: 0 1px 0 0 $red;
+}
+
+/* password focus color */
+.input-field input[type=password]:focus + label {
+	color: $green;
+}
+/* password underline focus color */
+.input-field input[type=password]:focus {
+	border-bottom: 1px solid $green;
+	box-shadow: 0 1px 0 0 $green;
+}
+/* valid color */
+.input-field input[type=password].valid {
+	border-bottom: 1px solid $green;
+	box-shadow: 0 1px 0 0 $green;
+}
+/* invalid color */
+.input-field input[type=password].invalid {
+	border-bottom: 1px solid $red;
+	box-shadow: 0 1px 0 0 $red;
+}
+

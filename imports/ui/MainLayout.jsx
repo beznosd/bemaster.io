@@ -9,8 +9,9 @@ class MainLayout extends Component {
 		return (
 			<div className="main-layout">
 				<Header />
-				{this.props.content}
-				{/*<TimerButton />*/}
+				<main className="container">
+					{this.props.content}
+				</main>
 			</div>
 		);
 	}
