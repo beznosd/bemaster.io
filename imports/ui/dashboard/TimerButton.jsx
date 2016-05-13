@@ -4,7 +4,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 
 import classnames from 'classnames';
 
-import { TimerTime } from '../api/TimerTime.js';
+import { TimerTime } from '../../api/TimerTime.js';
 
 class TimerButton extends Component {
 

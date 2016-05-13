@@ -1,14 +1,18 @@
 import React from 'react';
 import { mount } from 'react-mounter';
 
-// load Layout and Welcome React components
+// load Layouts and Welcome React components
+
 import MainLayout from '../ui/MainLayout.jsx';
-import TimerButton from '../ui/TimerButton.jsx';
-import Header from '../ui/Header.jsx';
-import NotFound from '../ui/NotFound.jsx';
+
 import HomePage from '../ui/HomePage.jsx';
-import Login from '../ui/Login.jsx';
-import SignUp from '../ui/SignUp.jsx'
+
+import TimerButton from '../ui/dashboard/TimerButton.jsx';
+
+import Login from '../ui/account/Login.jsx';
+import SignUp from '../ui/account/SignUp.jsx'
+
+import NotFound from '../ui/NotFound.jsx';
 
 FlowRouter.route("/", {
 	action() {

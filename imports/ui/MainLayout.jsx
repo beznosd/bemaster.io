@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
-import TimerButton from './TimerButton.jsx';
-import Header from './Header.jsx';
+import Header from './top_navbar/Header.jsx';
 
 class MainLayout extends Component {
 
