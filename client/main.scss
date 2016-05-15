@@ -3,6 +3,8 @@ $blueGreyLightenColor-1: #90a4ae;
 $blueGreyLightenColor-4: #cfd8dc;
 $green: #4caf50;
 $red: #f44336;
+$brownLighten-5: #efebe9;
+$brownLighten-2: #a1887f;
 
 @mixin user-select-none() {
 	-webkit-user-select: none;  /* Chrome all / Safari all */
@@ -124,18 +126,21 @@ $red: #f44336;
 	padding-left: 30px;
 	padding-right: 30px;
 	background-color: #fff;
-	margin-bottom: 70px;
+	position: relative;
+	z-index: 10;
+	/* margin-bottom: 70px; */
 }
 
 .nav-header img {
-	height: 64px;
+	margin-top: 7px;
+	height: 50px;
 }
 
 .nav-header ul li a {
 	color: #424242;
 }
 
-/* Login SignUp */
+/* Login # SignUp */
 
 .btn-login-signup {
 	width: 100%;
@@ -199,5 +204,37 @@ $red: #f44336;
 .input-field input[type=password].invalid {
 	border-bottom: 1px solid $red;
 	box-shadow: 0 1px 0 0 $red;
+}
+
+
+/* Sidebar */
+
+.user-link {	
+	padding: 10px;
+	cursor: pointer;
+	img {
+		margin-right: 7px;
+	}
+	h5 {
+		font-size: 1.5rem;	
+	}
+}
+
+.side-navigation {
+	position: absolute;
+	width: 220px;
+	height: 100%;
+	left: 0;
+	color: $brownLighten-5;
+}
+
+.side-menu_link {
+	display: block;
+	padding: 10px 10px 10px 20px;
+	color: $brownLighten-5;
+}
+
+.side-menu_link:hover{
+	background-color: $brownLighten-2;
 }
 
