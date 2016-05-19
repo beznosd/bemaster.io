@@ -1,0 +1,113 @@
+@mixin user-select-none() {
+	-webkit-user-select: none;  /* Chrome all / Safari all */
+	-moz-user-select: none;     /* Firefox all */
+	-ms-user-select: none;      /* IE 10+ */
+	-o-user-select: none;		/* Opera */
+	user-select: none;          /* Likely future */   
+}
+
+@mixin horizontal-center-absolute-element() {
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Absolute center - vertical and horizontal */
+@mixin horizontal-vertical-center-absolute-element() {
+	@include horizontal-center-absolute-element;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+}
+
+@mixin fade-out() {
+    -o-transition: opacity .2s ease;
+    -ms-transition: opacity .2s ease;
+    -moz-transition: opacity .2s ease;
+    -webkit-transition: opacity .2s ease;
+    transition: opacity .2s ease; 
+}
+
+.timer-block {
+	margin-top: 60px;
+}
+
+.timer {
+	position: relative;
+	display: inline-block;
+	width: 280px;
+	height: 280px;
+	border: 3px solid $blueLighten-1;
+	border-radius: 50%;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+.timer:before {
+    content: '';
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Timer start arrow */
+
+.timer-start_arrow {
+	@include horizontal-vertical-center-absolute-element;
+	@include user-select-none;
+	@include fade-out;
+	animation-duration: .3s;
+	height: 40%;
+}
+
+.timer-start_arrow .triangle {
+	@include horizontal-vertical-center-absolute-element;
+	display: block;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 33px 0 33px 55px;
+	border-color: transparent transparent transparent $blueGreyLightenColor-4;
+}
+
+/* Timer pause time */
+
+.timer-pause_time {
+	@include user-select-none;
+	@include horizontal-center-absolute-element;
+	@include fade-out;
+	bottom: 8%;
+	font-size: 2rem;
+	font-weight: 300;
+	color: $blueGreyLightenColor-1;
+	animation-duration: .4s;
+	/* display: none; */
+}
+
+/* Timer big nums */
+
+.timer-nums {
+	@include horizontal-vertical-center-absolute-element;
+	@include user-select-none;
+	@include fade-out;
+	animation-duration: .4s;
+	color: $blueGreyLightenColor-1;
+	padding-top: 5px;
+	font-size: 5.5rem;
+	font-weight: 200;
+	height: 45%;
+	/* display: none; */
+}
+
+
+.hidden {
+	opacity:0;
+	display: none;
+}
+
+.display-block {
+	opacity: 1;
+	display: block;
+}

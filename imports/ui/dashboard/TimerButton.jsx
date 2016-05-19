@@ -190,22 +190,18 @@ class TimerButton extends Component {
 			});
 
 			return (
-				<div className="row section">
-					<div className="col s12">
-						<div className="center-align timer-block">
-							<span onClick={this.toggleTimer.bind(this)} className="timer">
-								<span ref="timerNums" className={timerNumsClasses} style={{display: ''}}>
-									{this.renderTime()}
-								</span>
-								<div ref="timerStartArrow" className={timerStartArrowClasses} style={{display: ''}}>
-									<i className="triangle"></i>
-								</div>
-								<span ref="timerPauseTime" className={timerPauseTimeClasses} style={{display: ''}}>
-									{this.renderTime()}
-								</span>
-							</span>
+				<div className="center-align timer-block">
+					<span onClick={this.toggleTimer.bind(this)} className="timer">
+						<span ref="timerNums" className={timerNumsClasses} style={{display: ''}}>
+							{this.renderTime()}
+						</span>
+						<div ref="timerStartArrow" className={timerStartArrowClasses} style={{display: ''}}>
+							<i className="triangle"></i>
 						</div>
-					</div>
+						<span ref="timerPauseTime" className={timerPauseTimeClasses} style={{display: ''}}>
+							{this.renderTime()}
+						</span>
+					</span>
 				</div>
 			);
 
