@@ -35,7 +35,7 @@ class Bar extends Component{
   }
 }
 
-class DataSeries extends Component{
+class BarDataSeries extends Component{
   constructor(props){
     super(props);
     this.state = {
@@ -75,7 +75,7 @@ class TotalTimeChart extends Component {
   render(){
     return (
       <Chart width={this.state.width} height={this.state.height}>
-        <DataSeries data={[this.state.data]} width={this.state.width} height={this.state.height} color="green" />
+        <BarDataSeries data={[this.state.data]} width={this.state.width} height={this.state.height} color="green" />
       </Chart>
     );
   }
