@@ -7,17 +7,21 @@ import MainLayout from '../ui/MainLayout.jsx';
 
 import HomePage from '../ui/HomePage.jsx';
 
-import TimerButton from '../ui/dashboard/TimerButton.jsx';
+import Profile from '../ui/dashboard/Profile.jsx';
+import MasterBoard from '../ui/dashboard/MasterBoard.jsx';
 
 import Login from '../ui/account/Login.jsx';
 import SignUp from '../ui/account/SignUp.jsx'
 
 import NotFound from '../ui/NotFound.jsx';
 
+// First we import some modules...
+// import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router';
+
 FlowRouter.route("/", {
 	action() {
 		mount(MainLayout, {
-			content: (<HomePage />)
+			content: <HomePage />
 		});
 	}
 });
@@ -25,7 +29,7 @@ FlowRouter.route("/", {
 FlowRouter.route('/signup', {
 	action() {
 		mount(MainLayout, {
-			content: (<SignUp />)
+			content: <SignUp />
 		});
 	}
 });
@@ -33,19 +37,40 @@ FlowRouter.route('/signup', {
 FlowRouter.route('/login', {
 	action() {
 		mount(MainLayout, {
-			content: (<Login />)
+			content: <Login />
 		});
 	}
 });
 
-
-FlowRouter.route("/dashboard", {
+FlowRouter.route("/profile", {
 	action() {
 		mount(MainLayout, {
-			content: (<TimerButton />)
+			content: <Profile />
 		});
 	}
 });
+
+FlowRouter.route("/masterboard", {
+	action() {
+		mount(MainLayout, {
+			content: <MasterBoard />
+		});
+	}
+});
+
+
+// FlowRouter.route("/masterboard", {
+// 	action() {
+// 		mount(MainLayout, {
+// 			content: (<Router history={hashHistory}>
+// 						<Route path="/" component={MasterBoard}>
+// 							<IndexRoute component={TimerButton} />
+// 							<Route path="activities" component={Activities} />
+// 						</Route>
+// 					</Router>)
+// 		});
+// 	}
+// });
 
 // Reaktor doensn't have a notFound component yet
 FlowRouter.notFound = {

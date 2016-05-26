@@ -11,9 +11,9 @@ class LoggedInNav extends Component {
 				<ul id="nav-mobile" className="right hide-on-med-and-down">
 					<li><a onClick={this.props.logout}>Logout</a></li>
 				</ul>
-				<ul id="nav-mobile" className="right hide-on-med-and-down">
+				{/*<ul id="nav-mobile" className="right hide-on-med-and-down">
 					<li><a href="/dashboard">Dashboard</a></li>
-				</ul>
+				</ul>*/}
 				<ul id="nav-mobile" className="right hide-on-med-and-down">
 					<li><a href="/">Home</a></li>
 				</ul>
