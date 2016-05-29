@@ -4,7 +4,7 @@ import { Mongo } from 'meteor/mongo';
 export const TimerTime = new Mongo.Collection('timerTime');
 
 if( Meteor.isServer ) {
-	Meteor.publish('timerTime', function timerTimePublication(){
+	Meteor.publish('timerTime', () => {
 		return TimerTime.find({userId: 1});
 	});
 }

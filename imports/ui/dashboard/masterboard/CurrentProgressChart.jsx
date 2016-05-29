@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import React, {Component} from 'react';
 import d3 from 'd3';
 import {_} from 'underscore';
-import { TimerTime } from '../api/TimerTime.js';
+import { TimerTime } from '../../../api/TimerTime.js';
 
 
 class Line extends Component {

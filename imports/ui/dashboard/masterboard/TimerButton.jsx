@@ -1,10 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { createContainer } from 'meteor/react-meteor-data';
+
 
 import classnames from 'classnames';
-
-import { TimerTime } from '../api/TimerTime.js';
 
 class TimerButton extends Component {
 
@@ -163,36 +161,42 @@ class TimerButton extends Component {
 			});
 
 			return (
-				<span onClick={this.toggleTimer.bind(this)} className="timer">
-					<span ref="timerNums" className={timerNumsClasses} style={{display: ''}}>
-						{this.renderTime()}
+				<div className="center-align timer-block">
+					<span onClick={this.toggleTimer.bind(this)} className="timer">
+						<span ref="timerNums" className={timerNumsClasses} style={{display: ''}}>
+							{this.renderTime()}
+						</span>
+						<div ref="timerStartArrow" className={timerStartArrowClasses} style={{display: ''}}>
+							<i className="triangle"></i>
+						</div>
+						<span ref="timerPauseTime" className={timerPauseTimeClasses} style={{display: ''}}>
+							{this.renderTime()}
+						</span>
 					</span>
-					<div ref="timerStartArrow" className={timerStartArrowClasses} style={{display: ''}}>
-						<i className="triangle"></i>
-					</div>
-					<span ref="timerPauseTime" className={timerPauseTimeClasses} style={{display: ''}}>
-						{this.renderTime()}
-					</span>
-				</span>
+				</div>
 			);
 
 		} else {
 
 			return (
-				<span onClick={this.toggleTimer.bind(this)} className="timer">
-					<span ref="timerNums" className='timer-nums hidden' style={{display: ''}}>
-						{this.renderTime()}
+				<div className="center-align timer-block">
+					<span onClick={this.toggleTimer.bind(this)} className="timer">
+						<span ref="timerNums" className='timer-nums hidden' style={{display: ''}}>
+							{this.renderTime()}
+						</span>
+						<div ref="timerStartArrow" className="timer-start_arrow" style={{display: ''}}>
+							<i className="triangle"></i>
+						</div>
+						<span ref="timerPauseTime" className='timer-pause_time hidden' style={{display: ''}}>
+							{this.renderTime()}
+						</span>
 					</span>
-					<div ref="timerStartArrow" className="timer-start_arrow" style={{display: ''}}>
-						<i className="triangle"></i>
-					</div>
-					<span ref="timerPauseTime" className='timer-pause_time hidden' style={{display: ''}}>
-						{this.renderTime()}
-					</span>
-				</span>
+				</div>
 			);
 
 		}
+
+
 	}
 
 }
@@ -201,14 +205,7 @@ TimerButton.PropTypes = {
 	timerTime: PropTypes.array.isRequired
 }
 
-export default createContainer(() => {
-	Meteor.subscribe('timerTime');
-
-	return {
-		timerTime: TimerTime.find({userId: 1}).fetch(),
-	};
-}, TimerButton);
-
+export default TimerButton;
 // unused function
 // startTimerView() {
 // 	let timerNums = this.refs['timerNums'];

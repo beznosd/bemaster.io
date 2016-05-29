@@ -4,7 +4,6 @@ import classnames from 'classnames';
 import React, {Component} from 'react';
 import d3 from 'd3';
 import {_} from 'underscore';
-import { TimerTime } from '../api/TimerTime.js';
 
 class Chart extends Component{
   constructor(props){
@@ -44,11 +43,12 @@ class BarDataSeries extends Component{
   }
   render() {
     let props = this.props;
+    // console.log(this.props.data);
 
     let xScale = d3.scale.linear()
                   .range([0, this.props.width]);
     let bars = _.map(this.props.data, (point, i)=> {
-      console.log(this.props.data);
+
       return (
         <Bar height={props.height} width={xScale(point)} offset={0} availableHeight={props.height} color={props.color} key={i} />
       );
@@ -69,10 +69,12 @@ class TotalTimeChart extends Component {
     };
   }
   componentWillReceiveProps(nextProps){
-    let compileTotalTime = ((((nextProps.data[0].hours * 60)*60)+((nextProps.data[0].minutes)*60)+(nextProps.data[0].seconds))/(((nextProps.data[0].hours * 10)*60)*60));
+    console.log(nextProps);
+    let compileTotalTime = ((((nextProps.timerTime[0].seconds * 60)*60)+((nextProps.timerTime[0].minutes)*60)+(nextProps.timerTime[0].seconds))/(((nextProps.timerTime[0].seconds * 10)*60)*60));
     this.setState({ data: compileTotalTime});
   }
   render(){
+    console.log(this.state.data);
     return (
       <Chart width={this.state.width} height={this.state.height}>
         <BarDataSeries data={[this.state.data]} width={this.state.width} height={this.state.height} color="green" />
@@ -80,10 +82,4 @@ class TotalTimeChart extends Component {
     );
   }
 }
-export default createContainer(() => {
-	Meteor.subscribe('timerTime');
-  console.log(TimerTime.find({userId: 1}).fetch());
-	return {
-		data: TimerTime.find({userId: 1}).fetch(),
-	};
-}, TotalTimeChart);
+export default TotalTimeChart;
