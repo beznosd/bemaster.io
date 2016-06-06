@@ -1,3 +1,20 @@
+@mixin transition-thumbnail() {
+    -o-transition: opacity .15s ease-out;
+    -ms-transition: opacity .15s ease-out;
+    -moz-transition: opacity .2s ease;
+    -webkit-transition: opacity .15s ease-out;
+    transition: opacity .15s ease-out;
+}
+
+@mixin transform-thumbnail() {
+	-o-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+
 .profile-container {
 	padding-left: 30px;
 	width: 90%;
@@ -11,8 +28,7 @@
 
 		margin-bottom: 30px;
 
-		.avatar {
-			/* float: left; */
+		.avatar-icon {
 			display: inline-block;
 			padding: 30px 37px;
 			color: $blueGreyLightenColor-1;
@@ -22,8 +38,34 @@
 			transition: all .15s ease-out;
 		}
 
-		.avatar:hover {
+		.avatar-icon:hover {
 			border: 2px solid $green;
+			opacity: 0.8;
+		}
+
+		.thumbnail {
+			@include transition-thumbnail;
+			position: relative;
+			height: 137px;
+			width: 137px;
+			overflow: hidden;
+			border: 2px solid $green;
+			border-radius: 50% !important;
+			margin: 0 auto;
+		    cursor: pointer;
+		}
+
+		.avatar-img {
+			@include transform-thumbnail;
+			text-align: center;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			height: 100%;
+			width: auto;
+		}
+
+		.thumbnail:hover {
 			opacity: 0.8;
 		}
 

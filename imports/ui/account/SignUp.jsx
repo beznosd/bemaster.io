@@ -36,8 +36,8 @@ class SignUp extends Component {
 				<form onSubmit={this.onSubmit.bind(this)} className="col offset-s4 s4">
 					<div className="row">
 						<div className="input-field col s12">
-							<input ref="email" id="email" type="email" className="validate" />
-							<label htmlFor="email" data-error="wrong">Email</label>
+							<input ref="email" id="email" type="text" />
+							<label htmlFor="email">Email</label>
 						</div>
 					</div>
 					<div className="row">
