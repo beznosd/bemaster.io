@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
-
 import classnames from 'classnames';
+
+import MainSettings from './profile/MainSettings.jsx';
 
 class Profile extends Component {
 
@@ -29,8 +30,6 @@ class Profile extends Component {
 			this.setState({username: props.userData[0].username});
 			this.setState({email: props.userData[0].emails[0].address});
 		}
-
-		// $(this.refs.alias).val(props.userData[0].username);
 	}
 
 	onChangeUsername(evt) {
@@ -43,30 +42,6 @@ class Profile extends Component {
 
 	stripTags(str) {
 		return str.replace(/<\/?[^>]+>/gi, '');
-	}
-
-	saveMainSettings() {
-		// console.log(this.props.userData[0]);
-		//return;
-		var alias = this.stripTags( this.refs.alias.value.trim() );
-		var email = this.stripTags( this.refs.email.value.trim() );
-		if (alias && email) {
-			if (alias.length < 3) {
-				Materialize.toast('Alias should be at least from 3 letters', 3000);
-				return;
-			}
-			// send server request
-			var userId = Meteor.userId();
-			Meteor.call('user.addAlias', userId, alias, email, function(error, result){
-				if (error) {
-					Materialize.toast(error.reason, 3000);
-				} else {
-					Materialize.toast('Successfully Saved', 3000);
-				}
-			});
-		} else {
-			Materialize.toast('Please fill all fields to save new value(s)', 3000);
-		}
 	}
 
 	showChooseWindow() {
@@ -87,36 +62,9 @@ class Profile extends Component {
 				}
 		    });
 		}
-
-        // sconsole.log(file);
-		// Meteor.call('user.saveAvatar', )
 	}
 
 	render() {
-
-		let labelAliasClass, labelEmailClass;
-		
-		if( this.state.username ) {
-			labelAliasClass = classnames({
-				active: true
-			});
-		} else {
-			labelAliasClass = classnames({
-				active: false
-			});
-		}
-
-		if( this.state.email ) {
-			labelEmailClass = classnames({
-				active: true
-			});
-		} else {
-			labelEmailClass = classnames({
-				active: false
-			});
-		}
-
-
 		return (
 			<div className="profile-container">
 				<h3>Tune Profile</h3>
@@ -142,7 +90,7 @@ class Profile extends Component {
 							</div>
 						</div>
 						<div className="col s6 offset-s1">
-							<div className="main-info">
+							{/*<div className="main-info">
 								<div className="row">
 									<div className="input-field col s12">
 										<input onChange={this.onChangeUsername.bind(this)} ref="alias" id="alias" type="text" className="validate" value={this.state.username ? this.state.username : ''} />
@@ -156,7 +104,8 @@ class Profile extends Component {
 										<a onClick={this.saveMainSettings.bind(this)} className="save-btn waves-effect waves-light btn btn-block green">Save</a>
 									</div>
 								</div>
-							</div>
+							</div>*/}
+							<MainSettings username={this.state.username} email={this.state.email} onChangeEmail={this.onChangeEmail.bind(this)} onChangeUsername={this.onChangeUsername.bind(this)}/>
 						</div>
 					</div>
 				</div>

@@ -42,6 +42,12 @@ FlowRouter.route('/login', {
 	}
 });
 
+FlowRouter.route('/logout', {
+	action() {
+		FlowRouter.go('/');
+	}
+});
+
 FlowRouter.route("/profile", {
 	action() {
 		mount(MainLayout, {

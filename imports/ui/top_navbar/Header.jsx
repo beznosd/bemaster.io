@@ -11,7 +11,7 @@ class Header extends Component {
 			if ( err ) {
 				Materialize.toast(err.reason, 4000);
 			} else {
-				FlowRouter.go('/');
+				FlowRouter.go('/logout');
 			}
 		});
 	}
