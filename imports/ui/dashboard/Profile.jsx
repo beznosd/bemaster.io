@@ -4,6 +4,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import classnames from 'classnames';
 
 import MainSettings from './profile/MainSettings.jsx';
+import AdvancedSettings from './profile/AdvancedSettings.jsx';
 
 class Profile extends Component {
 
@@ -12,7 +13,8 @@ class Profile extends Component {
 
         this.state = {
             username: '',
-			email: ''
+			email: '',
+			currentSettings: 'advanced'
         };
 	}
 
@@ -64,7 +66,26 @@ class Profile extends Component {
 		}
 	}
 
+	changeSettingsComponent(evt) {
+		// console.log(evt.target.innerText);
+		this.refs.settingsFlag.innerText = evt.target.innerText;
+		this.setState({currentSettings: $(evt.target).attr('data-settings')});
+	}
+
 	render() {
+		
+		let currentSettings;
+
+		if( this.state.currentSettings === 'main' ) {
+			currentSettings = <MainSettings username={this.state.username} email={this.state.email} onChangeEmail={this.onChangeEmail.bind(this)} onChangeUsername={this.onChangeUsername.bind(this)}/>;
+		} else if ( this.state.currentSettings === 'advanced' ) {
+			currentSettings = <AdvancedSettings />;
+		} else if ( this.state.currentSettings === 'changepass' ) {
+			currentSettings = 'Change pass';
+		} else {
+			currentSettings = <MainSettings username={this.state.username} email={this.state.email} onChangeEmail={this.onChangeEmail.bind(this)} onChangeUsername={this.onChangeUsername.bind(this)}/>;
+		}
+
 		return (
 			<div className="profile-container">
 				<h3>Tune Profile</h3>
@@ -81,31 +102,16 @@ class Profile extends Component {
 								<input onChange={this.saveAvatar.bind(this)} ref="avatarInput" name="avatar[]" type="file" className="hide"/>
 							</div>
 							<div className="row">
-								<a className='dropdown-button btn btn-block blue-grey lighten-1' href='#' data-activates='settings'>Main Settings</a>
+								<a ref="settingsFlag" className='dropdown-button btn btn-block blue-grey lighten-1' href='#' data-activates='settings'>Main Settings</a>
 								<ul id='settings' className='dropdown-content'>
-									<li><a href="#!">Main Settings</a></li>
-									<li><a href="#!">Advanced settings</a></li>
-									<li><a href="#!">Change password</a></li>
+									<li><a onClick={this.changeSettingsComponent.bind(this)} data-settings="main" href="#">Main Settings</a></li>
+									<li><a onClick={this.changeSettingsComponent.bind(this)} data-settings="advanced" href="#">Advanced settings</a></li>
+									<li><a onClick={this.changeSettingsComponent.bind(this)} data-settings="changepass" href="#">Change password</a></li>
 								</ul>
 							</div>
 						</div>
 						<div className="col s6 offset-s1">
-							{/*<div className="main-info">
-								<div className="row">
-									<div className="input-field col s12">
-										<input onChange={this.onChangeUsername.bind(this)} ref="alias" id="alias" type="text" className="validate" value={this.state.username ? this.state.username : ''} />
-										<label className={labelAliasClass} for="alias">Your Master's Alias</label>
-									</div>
-									<div className="input-field col s12">
-										<input onChange={this.onChangeEmail.bind(this)} ref="email" id="email" type="email" className="validate" value={this.state.email ? this.state.email : ''} />
-										<label className={labelEmailClass} for="email">Your email</label>
-									</div>
-									<div className="right-align input-field col s12">
-										<a onClick={this.saveMainSettings.bind(this)} className="save-btn waves-effect waves-light btn btn-block green">Save</a>
-									</div>
-								</div>
-							</div>*/}
-							<MainSettings username={this.state.username} email={this.state.email} onChangeEmail={this.onChangeEmail.bind(this)} onChangeUsername={this.onChangeUsername.bind(this)}/>
+							{currentSettings}
 						</div>
 					</div>
 				</div>
