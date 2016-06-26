@@ -135,6 +135,12 @@ class TimerButton extends Component {
 		// console.log(this.state.ticking);
 		// console.log(this.state.s);
 
+		const timerButtonClasses = classnames({
+			hide: !this.props.hideButton,
+			'center-align': true,
+			'timer-block': true
+		});
+
 		if (this.props.timerTime[0]) {
 
 			const timerNumsClasses = classnames({
@@ -160,7 +166,7 @@ class TimerButton extends Component {
 			});
 
 			return (
-				<div className="center-align timer-block">
+				<div className={timerButtonClasses}>
 					<span onClick={this.toggleTimer.bind(this)} className="timer">
 						<span ref="timerNums" className={timerNumsClasses} style={{display: ''}}>
 							{this.renderTime()}
@@ -178,7 +184,7 @@ class TimerButton extends Component {
 		} else {
 
 			return (
-				<div className="center-align timer-block">
+				<div className={timerButtonClasses}>
 					<span onClick={this.toggleTimer.bind(this)} className="timer">
 						<span ref="timerNums" className='timer-nums hidden' style={{display: ''}}>
 							{this.renderTime()}

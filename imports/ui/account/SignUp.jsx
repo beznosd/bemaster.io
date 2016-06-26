@@ -19,6 +19,16 @@ class SignUp extends Component {
 			return false;
 		}
 
+		if( password.length < 8 ) {
+			Materialize.toast('Password should be at least from 8 symbols', 3000);
+			return;
+		}
+
+		if( password !== confirmPassword ) {
+			Materialize.toast('Your passwords don\'t match!', 3000);
+			return false;
+		}
+
 		Accounts.createUser({email, password}, (err) => {
 			if ( err ) {
 				Materialize.toast(err.reason, 3000);

@@ -5,6 +5,7 @@ import classnames from 'classnames';
 
 import MainSettings from './profile/MainSettings.jsx';
 import AdvancedSettings from './profile/AdvancedSettings.jsx';
+import ChangePassword from './profile/ChangePassword.jsx';
 
 class Profile extends Component {
 
@@ -14,7 +15,7 @@ class Profile extends Component {
         this.state = {
             username: '',
 			email: '',
-			currentSettings: 'advanced'
+			currentSettings: ''
         };
 	}
 
@@ -78,10 +79,8 @@ class Profile extends Component {
 
 		if( this.state.currentSettings === 'main' ) {
 			currentSettings = <MainSettings username={this.state.username} email={this.state.email} onChangeEmail={this.onChangeEmail.bind(this)} onChangeUsername={this.onChangeUsername.bind(this)}/>;
-		} else if ( this.state.currentSettings === 'advanced' ) {
-			currentSettings = <AdvancedSettings />;
 		} else if ( this.state.currentSettings === 'changepass' ) {
-			currentSettings = 'Change pass';
+			currentSettings = <ChangePassword />;
 		} else {
 			currentSettings = <MainSettings username={this.state.username} email={this.state.email} onChangeEmail={this.onChangeEmail.bind(this)} onChangeUsername={this.onChangeUsername.bind(this)}/>;
 		}
@@ -105,7 +104,7 @@ class Profile extends Component {
 								<a ref="settingsFlag" className='dropdown-button btn btn-block blue-grey lighten-1' href='#' data-activates='settings'>Main Settings</a>
 								<ul id='settings' className='dropdown-content'>
 									<li><a onClick={this.changeSettingsComponent.bind(this)} data-settings="main" href="#">Main Settings</a></li>
-									<li><a onClick={this.changeSettingsComponent.bind(this)} data-settings="advanced" href="#">Advanced settings</a></li>
+									{/*<li><a onClick={this.changeSettingsComponent.bind(this)} data-settings="advanced" href="#">Advanced settings</a></li>*/}
 									<li><a onClick={this.changeSettingsComponent.bind(this)} data-settings="changepass" href="#">Change password</a></li>
 								</ul>
 							</div>

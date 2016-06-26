@@ -34,11 +34,9 @@ class MasterBoard extends Component {
 
 	render() {
 
-
-
 		return (
 			<div className="master-board">
-				{this.state.timer ? <TimerButton timerTime={this.props.timerTime}/> : <TimerButton timerTime={this.props.timerTime} className="hide"/>}
+				<TimerButton hideButton={this.state.timer} timerTime={this.props.timerTime}/>
 				{this.state.activities ? <Activities /> : ''}
 				{this.state.currentProgress ? <CurrentProgress timerTime={this.props.timerTime}/> : ''}
 				{/*this.props.children*/}
