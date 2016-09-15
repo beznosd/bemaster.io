@@ -1,0 +1,35 @@
+.user-link {	
+	padding: 10px;
+	cursor: pointer;
+	img {
+		margin-right: 7px;
+	}
+	h5 {
+		font-size: 1.5rem;
+		color: $brownLighten-5;
+		a {
+			color: $brownLighten-5;
+		}
+		a:hover {
+			color: $brownLighten-4;
+		}
+	}
+}
+
+.side-navigation {
+	position: absolute;
+	width: 16%;
+	height: 100%;
+	left: 0;
+	color: $brownLighten-5;
+}
+
+.side-menu_link {
+	display: block;
+	padding: 10px 10px 10px 20px;
+	color: $brownLighten-5;
+}
+
+.side-menu_link:hover{
+	background-color: $brownLighten-2;
+}
