@@ -64,6 +64,12 @@ FlowRouter.route("/masterboard", {
 	}
 });
 
+FlowRouter.notFound = {
+	action() {
+		mount(MainLayout, { content: <NotFound /> });
+	}
+};
+
 
 // FlowRouter.route("/masterboard", {
 // 	action() {
@@ -77,10 +83,3 @@ FlowRouter.route("/masterboard", {
 // 		});
 // 	}
 // });
-
-// Reaktor doensn't have a notFound component yet
-FlowRouter.notFound = {
-	action() {
-		mount(MainLayout, { content: <NotFound /> });
-	}
-};
