@@ -18,7 +18,7 @@ if( Meteor.isServer ) {
 					'emails.0.address': email
 				}
 			});
-		},	
+		},
 
 		'user.saveAvatar'(blob, name, path, encoding) {
 			// Accounts.setUsername( userId, alias );
@@ -39,7 +39,7 @@ if( Meteor.isServer ) {
 				} else {
 					return 'The file ' + name + ' (' + encoding + ') was saved to ' + path;
 				}
-			}); 
+			});
 
 			function cleanPath(str) {
 				if (str) {
@@ -53,7 +53,7 @@ if( Meteor.isServer ) {
 
 	});
 
-	// Dfining schema for Meteor.users collection
+	// Defining schema for Meteor.users collection
 
 	let Schema = {};
 
@@ -180,4 +180,3 @@ if( Meteor.isServer ) {
 	Meteor.users.attachSchema(Schema.User);
 
 }
-
