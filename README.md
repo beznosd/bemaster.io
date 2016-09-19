@@ -2,4 +2,4 @@
 
 Start your mastery way now!
 
-This is a `master` branch -> our production ;)
+This is a `dima`'s branch ;)

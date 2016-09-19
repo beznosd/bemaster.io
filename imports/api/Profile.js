@@ -8,6 +8,7 @@ if( Meteor.isServer ) {
 		return Meteor.users.find({_id: this.userId});
 	});
 
+
 	Meteor.methods({
 
 		'user.addAlias'(userId, alias, email) {
@@ -53,7 +54,17 @@ if( Meteor.isServer ) {
 
 	});
 
-	// Defining schema for Meteor.users collection
+
+	Accounts.onCreateUser((options, user) => {
+		user.activities = [];
+		user.timer = {
+			ms: 0,
+			ticking: false,
+			current_activity: ''
+		};
+		return user;
+	});
+
 
 	let Schema = {};
 
@@ -173,9 +184,18 @@ if( Meteor.isServer ) {
 	    heartbeat: {
 	    	type: Date,
 	    	optional: true
+	    },
+			timer: {
+				type: Object,
+				optional: false,
+				blackbox: true
+			},
+	    // aditional aplication user data (activities, etc.)
+	    activities: {
+	    	type: [String],
+	    	optional: true
 	    }
-	});
-
+});
 
 	Meteor.users.attachSchema(Schema.User);
 
