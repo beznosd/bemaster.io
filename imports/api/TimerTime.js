@@ -11,8 +11,9 @@ if( Meteor.isServer ) {
 
 Meteor.methods({
 
-	'timerTime.insert'(seconds, minutes, hours, ticking) {
-		TimerTime.upsert({userId: 1}, {seconds: seconds, minutes: minutes, hours: hours, userId: 1, ticking: ticking});
+	'timerTime.insert'(ms, ticking) {
+		// TimerTime.upsert({userId: 1}, {seconds: seconds, minutes: minutes, hours: hours, userId: 1, ticking: ticking});
+		TimerTime.upsert({userId: 1}, {ms: ms, userId: 1, ticking: ticking});
 	}
 
 });

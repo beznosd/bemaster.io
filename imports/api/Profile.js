@@ -185,7 +185,7 @@ if( Meteor.isServer ) {
 	    	type: [String],
 	    	optional: true
 	    }
-});
+	});
 
 	Meteor.users.attachSchema(Schema.User);
 

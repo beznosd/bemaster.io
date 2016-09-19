@@ -39,7 +39,7 @@ class MasterBoard extends Component {
 				<TimerButton hideButton={this.state.timer} timerTime={this.props.timerTime}/>
 				{this.state.activities ? <Activities /> : ''}
 				{this.state.currentProgress ? <CurrentProgress timerTime={this.props.timerTime}/> : ''}
-				{/*this.props.children*/}
+				
 				<Tabs showElement={this.showElement.bind(this)} />
 			</div>
 		);
