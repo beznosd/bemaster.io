@@ -11,21 +11,21 @@ class TimerButton extends Component {
         this.state = {
             ticking: false,
             ms: 0,
-            intervalId: null
         };
-
 	}
 
 	getSeconds(ms) {
-		return Math.floor(ms / 1000);
+		return Math.floor(ms / 1000) - (this.getMinutes(ms) * 60) - (this.getHours(ms) * 3600);
 	}
 
 	getMinutes(ms) {
-		return Math.floor(this.getSeconds(ms) / 60);
+		// 60000 = 1000ms * 60s
+		return Math.floor(ms / 60000) - (this.getHours(ms) * 60);
 	}
 
 	getHours(ms) {
-		return Math.floor(this.getMinutes(ms) / 60);
+		// 3600000 = 1000ms * 60s * 60s
+		return Math.floor(ms / 3600000);
 	}
 
 	// minimeze font of nums if hours was appeared inside the timer
@@ -38,8 +38,6 @@ class TimerButton extends Component {
 
 		if ( this.state.ticking ) {
 
-			// here was windows.intervalId instead of state.intervalId (see below in this condition)
-			// window.i
 			window.i = Meteor.setInterval(function(){
 
 				if (!this.state.ticking) {
@@ -54,8 +52,6 @@ class TimerButton extends Component {
 				Meteor.call('timerTime.insert', this.state.ms, this.state.ticking);
 
 			}.bind(this), 1000);
-
-			this.setState({intervalId: intervalId});
 
 		} else {
 			Meteor.call('timerTime.insert', this.state.ms, this.state.ticking);
@@ -182,7 +178,7 @@ class TimerButton extends Component {
 						<i className="triangle"></i>
 					</div>
 					<span ref="timerPauseTime" className={timerPauseTimeClasses} style={{display: ''}}>
-						{this.renderTime()}
+						{this.state.ms !== 0 ? this.renderTime() : ''}
 					</span>
 				</span>
 			</div>
