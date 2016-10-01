@@ -10,10 +10,22 @@ class TimerButton extends Component {
 
         this.state = {
             ticking: false,
-            s: 0,
-            m: 0,
-            h: 0
+            ms: 0,
         };
+	}
+
+	getSeconds(ms) {
+		return Math.floor(ms / 1000) - (this.getMinutes(ms) * 60) - (this.getHours(ms) * 3600);
+	}
+
+	getMinutes(ms) {
+		// 60000 = 1000ms * 60s
+		return Math.floor(ms / 60000) - (this.getHours(ms) * 60);
+	}
+
+	getHours(ms) {
+		// 3600000 = 1000ms * 60s * 60s
+		return Math.floor(ms / 3600000);
 	}
 
 	// minimeze font of nums if hours was appeared inside the timer
@@ -24,37 +36,25 @@ class TimerButton extends Component {
 	// run or pause timer
 	timer() {
 
-		/*setTimeout(function(){
-			Meteor.call('timerTime.insert', this.state.s, this.state.m, this.state.h, this.state.ticking);
-		}.bind(this), 350);*/
-
 		if ( this.state.ticking ) {
 
 			window.i = Meteor.setInterval(function(){
 
 				if (!this.state.ticking) {
-					Meteor.call('timerTime.insert', this.state.s, this.state.m, this.state.h, this.state.ticking);
+					Meteor.call('timerTime.insert', this.state.ms, this.state.ticking);
 					Meteor.clearInterval(window.i);
 					return;
 				}
 
-				if( this.state.s < 59 ) {
-					let s = this.state.s + 1;
-					this.setState({s: s});
-				} else if( this.state.m < 59 ) {
-					let m = this.state.m + 1;
-					this.setState({s: 0, m: m});
-				} else if ( this.state.m == 59) {
-					let h = this.state.h + 1;
-					this.setState({s: 0, m: 0, h: h});
-				}
+				let ms = this.state.ms + 1000;
+				this.setState({ ms: ms });
 
-				Meteor.call('timerTime.insert', this.state.s, this.state.m, this.state.h, this.state.ticking);
+				Meteor.call('timerTime.insert', this.state.ms, this.state.ticking);
 
 			}.bind(this), 1000);
 
 		} else {
-			Meteor.call('timerTime.insert', this.state.s, this.state.m, this.state.h, this.state.ticking);
+			Meteor.call('timerTime.insert', this.state.ms, this.state.ticking);
 			Meteor.clearInterval(window.i);
 		}
 
@@ -67,14 +67,12 @@ class TimerButton extends Component {
 		this.updateComponentStates();
 
 		if (this.state.ticking === false) {
-			// this.startTimerView();
 			this.state.ticking = true;
 		} else {
-			// this.pauseTimerView();
 			this.state.ticking = false;
 		}
 
-		Meteor.call('timerTime.insert', this.state.s, this.state.m, this.state.h, this.state.ticking);
+		Meteor.call('timerTime.insert', this.state.ms, this.state.ticking);
 
 		this.timer();
 
@@ -83,57 +81,46 @@ class TimerButton extends Component {
 	// update data on all clients' components
 	componentWillReceiveProps(nextProps) {
 		this.setState({ ticking: nextProps.timerTime[0].ticking });
-		this.setState({ s: nextProps.timerTime[0].seconds });
-		this.setState({ m: nextProps.timerTime[0].minutes });
-		this.setState({ h: nextProps.timerTime[0].hours });
+		this.setState({ ms: nextProps.timerTime[0].ms });
 
-		if (nextProps.timerTime[0].hours > 0) {
+		if ( this.getHours(nextProps.timerTime[0].ms) > 0) {
 			this.minimizeNumsFont();
-		}
-	}
-
-	renderTime() {
-		// at first launch render time from DB, then when timer will work will, work this
-		if ( this.props.timerTime[0] ) {
-			let seconds = this.props.timerTime[0].seconds;
-			let minutes = this.props.timerTime[0].minutes;
-			let hours = this.props.timerTime[0].hours;
-			return (
-				<span>{hours ? hours + ':' : ''}
-				{hours ? ( (minutes < 10) ? '0' + minutes + ':' : minutes + ':' ) : ( minutes ? minutes + ':' : '' )}
-				{(seconds < 10) ? '0'+seconds : seconds}</span>
-			);
-		// at first launch render initial time 0:0:0
-		} else {
-			return (
-				<span>{this.state.h ? this.state.h + ':' : ''}
-				{this.state.h ? ( (this.state.m < 10) ? '0' + this.state.m + ':' : this.state.m + ':' ) : ( this.state.m ? this.state.m + ':' : '' )}
-				{(this.state.s < 10) ? '0'+this.state.s : this.state.s}</span>
-			);
 		}
 	}
 
 	// Update time states to recently logged time if it exists in db
 	updateComponentStates() {
-		if ( this.props.timerTime[0] ) {
-			if ( this.props.timerTime[0].seconds ) {
-				this.setState({ s: this.props.timerTime[0].seconds });
-			}
-			if ( this.props.timerTime[0].minutes ) {
-				this.setState({ m: this.props.timerTime[0].minutes });
-			}
-			if ( this.props.timerTime[0].hours ) {
-				this.setState({ h: this.props.timerTime[0].hours });
-			}
-			if ( this.props.timerTime[0].ticking ) {
-				this.setState({ticking: this.props.timerTime[0].ticking});
-			}
+		if ( this.props.timerTime[0] && this.props.timerTime[0].ms) {
+			this.setState({ ms: this.props.timerTime[0].ms });
 		}
 	}
 
+	renderTime() {
+
+		// at first launch render initial time (0ms)
+		let ms = this.state.ms;
+		// check for db data and apply it, if exists
+		if ( this.props.timerTime[0] ) {
+			ms = this.props.timerTime[0].ms;
+		}
+
+		let seconds = this.getSeconds(ms);
+		let minutes = this.getMinutes(ms);
+		let hours = this.getHours(ms);
+
+		seconds = ( seconds >= 1 ) ? seconds : 0 ;
+		minutes = ( minutes >= 1 ) ? minutes : 0 ;
+		hours = ( hours >= 1 ) ? hours : 0 ;
+
+		return (
+			<span>{hours ? hours + ':' : ''}
+			{hours ? ( (minutes < 10) ? '0' + minutes + ':' : minutes + ':' ) : ( minutes ? minutes + ':' : '' )}
+			{(seconds < 10) ? '0'+seconds : seconds}</span>
+		);
+
+	}
+
 	render() {
-		// console.log(this.state.ticking);
-		// console.log(this.state.s);
 
 		const timerButtonClasses = classnames({
 			hide: !this.props.hideButton,
@@ -143,21 +130,21 @@ class TimerButton extends Component {
 
 		if (this.props.timerTime[0]) {
 
-			const timerNumsClasses = classnames({
+			var timerNumsClasses = classnames({
 				hidden: !this.props.timerTime[0].ticking,
 				'display-block': this.props.timerTime[0].ticking,
 				'timer-nums': true,
 				animated: true,
 				zoomIn: true
 			});
-			const timerPauseTimeClasses = classnames({
+			var timerPauseTimeClasses = classnames({
 				hidden: this.props.timerTime[0].ticking,
 				'display-block': !this.props.timerTime[0].ticking,
 				'timer-pause_time': true,
 				animated: true,
 				zoomIn: true
 			});
-			const timerStartArrowClasses = classnames({
+			var timerStartArrowClasses = classnames({
 				hidden: this.props.timerTime[0].ticking,
 				'display-block': !this.props.timerTime[0].ticking,
 				'timer-start_arrow': true,
@@ -165,42 +152,37 @@ class TimerButton extends Component {
 				zoomIn: true
 			});
 
-			return (
-				<div className={timerButtonClasses}>
-					<span onClick={this.toggleTimer.bind(this)} className="timer">
-						<span ref="timerNums" className={timerNumsClasses} style={{display: ''}}>
-							{this.renderTime()}
-						</span>
-						<div ref="timerStartArrow" className={timerStartArrowClasses} style={{display: ''}}>
-							<i className="triangle"></i>
-						</div>
-						<span ref="timerPauseTime" className={timerPauseTimeClasses} style={{display: ''}}>
-							{this.renderTime()}
-						</span>
-					</span>
-				</div>
-			);
-
 		} else {
 
-			return (
-				<div className={timerButtonClasses}>
-					<span onClick={this.toggleTimer.bind(this)} className="timer">
-						<span ref="timerNums" className='timer-nums hidden' style={{display: ''}}>
-							{this.renderTime()}
-						</span>
-						<div ref="timerStartArrow" className="timer-start_arrow" style={{display: ''}}>
-							<i className="triangle"></i>
-						</div>
-						<span ref="timerPauseTime" className='timer-pause_time hidden' style={{display: ''}}>
-							{this.renderTime()}
-						</span>
-					</span>
-				</div>
-			);
+			var timerNumsClasses = classnames({
+				hidden: true,
+				'timer-nums': true,
+			});
+			var timerPauseTimeClasses = classnames({
+				hidden: true,
+				'timer-pause_time': true,
+			});
+			var timerStartArrowClasses = classnames({
+				'timer-start_arrow': true,
+			});
 
 		}
 
+		return (
+			<div className={timerButtonClasses}>
+				<span onClick={this.toggleTimer.bind(this)} className="timer">
+					<span ref="timerNums" className={timerNumsClasses} style={{display: ''}}>
+						{this.renderTime()}
+					</span>
+					<div ref="timerStartArrow" className={timerStartArrowClasses} style={{display: ''}}>
+						<i className="triangle"></i>
+					</div>
+					<span ref="timerPauseTime" className={timerPauseTimeClasses} style={{display: ''}}>
+						{this.state.ms !== 0 ? this.renderTime() : ''}
+					</span>
+				</span>
+			</div>
+		);
 
 	}
 
@@ -211,28 +193,3 @@ TimerButton.PropTypes = {
 }
 
 export default TimerButton;
-// unused function
-// startTimerView() {
-// 	let timerNums = this.refs['timerNums'];
-// 	let timerStartArrow = this.refs['timerStartArrow'];
-// 	let timerPauseTime = this.refs['timerPauseTime'];
-//
-// 	$(timerStartArrow).removeClass('display-block').addClass('hidden');
-// 	$(timerPauseTime).removeClass('display-block').addClass('hidden');
-//
-// 	$(timerNums).removeClass('hidden').addClass('display-block').animateCss('zoomIn');
-//
-// }
-//
-// pauseTimerView() {
-// 	let timerNums = this.refs['timerNums'];
-// 	let timerStartArrow = this.refs['timerStartArrow'];
-// 	let timerPauseTime = this.refs['timerPauseTime'];
-//
-// 	$(timerNums).removeClass('display-block').addClass('hidden');
-// 	console.log('test');
-// 	setTimeout(function() {
-// 	$(timerStartArrow).removeClass('hidden').addClass('display-block').animateCss('zoomIn');
-// 	$(timerPauseTime).removeClass('hidden').addClass('display-block').animateCss('zoomIn');
-// 	}, 150);
-// }

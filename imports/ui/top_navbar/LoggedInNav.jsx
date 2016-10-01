@@ -6,7 +6,7 @@ class LoggedInNav extends Component {
 		return (
 			<div className="nav-wrapper">
 				<a href="/">
-					<img src="/bemaster-logo-small.png" height="64" alt="BeMaster.io logo" description="BeMaster.io logo"/>
+					<img src="/bemaster-logo-small.png" height="64" alt="BeMaster logo"/>
 				</a>
 				<ul id="nav-mobile" className="right hide-on-med-and-down">
 					<li><a onClick={this.props.logout}>Logout</a></li>
