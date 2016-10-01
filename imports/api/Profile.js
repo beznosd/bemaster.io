@@ -3,17 +3,23 @@ import { Mongo } from 'meteor/mongo';
 // import { Accounts } from 'meteor/accounts-base';
 
 if( Meteor.isServer ) {
-	const options = {
-		fields: {
-			'timer': 1,
-			'activities': 1
-		}
-	};
-	const selector = {
-    _id: this.userId
-  };
-	Meteor.publish('userData', () => {
-		return Meteor.users.findOne(selector, options);
+	// const options = {
+	// 	fields: {
+	// 		'users.timer': 1,
+	// 		'users.activities': 1
+	// 	}
+	// };
+	// const selector = {
+  //   _id: this.userId
+  // };
+	Meteor.publish('userData', function() {
+		// return Meteor.users.findOne(selector, options);
+		return Meteor.users.find({_id: this.userId}, {
+			fields: {
+				timer: 1,
+				activities: 1
+			}
+		});
 	});
 
 

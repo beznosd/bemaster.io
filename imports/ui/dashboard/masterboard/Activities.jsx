@@ -3,13 +3,6 @@ import { createContainer } from 'meteor/react-meteor-data';
 
 class Activities extends Component {
 
-	constructor() {
-    super()
-    this.state = {
-      subscription:  Meteor.user().timer
-    }
-  }
-
 	stripTags(str) {
 		return str.replace(/<\/?[^>]+>/gi, '');
 	}
@@ -41,13 +34,13 @@ class Activities extends Component {
 
 	render() {
 		console.log("this.props.userData", this.props.userData);
+		console.log("this.props.userData", this.state.subscription);
 		return (
 			<div>
 				<h1 className="test-tab-content">Activities</h1>
 				<div className="row">
 					<div className="col s4">
-						<code>{this.props.userData}</code>
-						<p>{this.state.subscription}</p>
+						No data
 					</div>
 				</div>
 				<div className="row">
@@ -70,19 +63,15 @@ class Activities extends Component {
 
 }
 Activities.PropTypes = {
-	timerTime: PropTypes.object.isRequired
+	timerTime: PropTypes.object.isRequired,
+	userData: PropTypes.object.isRequired
 }
 // export default Activities;
 
 export default createContainer(() => {
 	// const id = Meteor.userId();
-	Meteor.subscribe('userData')
-	// console.log("hh",hh);
-	// console.log("Yeahhh");
-	// if (hh.ready()) {
-	// 	// console.log("hh2",hh);
-		return {
-			userData: true ? Meteor.user().timer : "Fuck you"
-		};
-	// }
+	Meteor.subscribe('userData');
+	return {
+		userData: Meteor.user()
+	};
 }, Activities);
