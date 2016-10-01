@@ -3,9 +3,17 @@ import { Mongo } from 'meteor/mongo';
 // import { Accounts } from 'meteor/accounts-base';
 
 if( Meteor.isServer ) {
-
+	const options = {
+		fields: {
+			'timer': 1,
+			'activities': 1
+		}
+	};
+	const selector = {
+    _id: this.userId
+  };
 	Meteor.publish('userData', () => {
-		return Meteor.users.find({_id: this.userId});
+		return Meteor.users.findOne(selector, options);
 	});
 
 
@@ -40,7 +48,7 @@ if( Meteor.isServer ) {
 				} else {
 					return 'The file ' + name + ' (' + encoding + ') was saved to ' + path;
 				}
-			}); 
+			});
 
 			function cleanPath(str) {
 				if (str) {
@@ -54,12 +62,17 @@ if( Meteor.isServer ) {
 
 	});
 
+
 	Accounts.onCreateUser((options, user) => {
 		user.activities = [];
+		user.timer = {
+			ms: 0,
+			ticking: false,
+			current_activity: ''
+		};
 		return user;
 	});
 
-	// Dfining schema for Meteor.users collection
 
 	let Schema = {};
 
@@ -180,6 +193,11 @@ if( Meteor.isServer ) {
 	    	type: Date,
 	    	optional: true
 	    },
+			timer: {
+				type: Object,
+				optional: false,
+				blackbox: true
+			},
 	    // aditional aplication user data (activities, etc.)
 	    activities: {
 	    	type: [String],
@@ -190,4 +208,3 @@ if( Meteor.isServer ) {
 	Meteor.users.attachSchema(Schema.User);
 
 }
-
