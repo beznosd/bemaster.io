@@ -1,6 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { createContainer } from 'meteor/react-meteor-data';
 
 class Activities extends Component {
+
+	constructor() {
+    super()
+    this.state = {
+      subscription:  Meteor.user().timer
+    }
+  }
 
 	stripTags(str) {
 		return str.replace(/<\/?[^>]+>/gi, '');
@@ -32,9 +40,16 @@ class Activities extends Component {
 	}
 
 	render() {
+		console.log("this.props.userData", this.props.userData);
 		return (
 			<div>
 				<h1 className="test-tab-content">Activities</h1>
+				<div className="row">
+					<div className="col s4">
+						<code>{this.props.userData}</code>
+						<p>{this.state.subscription}</p>
+					</div>
+				</div>
 				<div className="row">
 					<h4 className="center-align">Create new Activity</h4>
 					<div className="col offset-s4 s4">
@@ -54,5 +69,20 @@ class Activities extends Component {
 	}
 
 }
+Activities.PropTypes = {
+	timerTime: PropTypes.object.isRequired
+}
+// export default Activities;
 
-export default Activities;
+export default createContainer(() => {
+	// const id = Meteor.userId();
+	Meteor.subscribe('userData')
+	// console.log("hh",hh);
+	// console.log("Yeahhh");
+	// if (hh.ready()) {
+	// 	// console.log("hh2",hh);
+		return {
+			userData: true ? Meteor.user().timer : "Fuck you"
+		};
+	// }
+}, Activities);
