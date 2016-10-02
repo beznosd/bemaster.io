@@ -4,40 +4,46 @@ import { Mongo } from 'meteor/mongo';
 
 if( Meteor.isServer ) {
 
-	Meteor.publish('userActivities', () => {
-		return Activities.find({user_id: this.userId});
+	Meteor.publish('userActivities', function (userId) {
+		console.log("userId",userId);
+		console.log("result", userActivities.findOne({user_id: userId}));
+		return userActivities.find({user_id: userId});
 	});
 
 	Meteor.methods({
-    'activities.addActivity'(userId, activity) {
-			Activities.insert({
+    'userActivities.addActivity'(userId, activity) {
+			userActivities.insert({
         user_id: userId,
         activity_name: activity.name,
-        time_spent: activity.timeSpent,
+        total_time: activity.totalTime,
         createdAt: Date.now()
+      }, function (err, result) {
+				console.log("Me the result", result);
+      	Meteor.users.update({_id: userId}, {$push: {activities: result}})
       });
+
 		},
-    'activities.startActivity'(userId) {
-			Activities.update({user_id: userId}, {
+    'userActivities.startActivity'(userId) {
+			userActivities.update({user_id: userId}, {
         started_at: Date.now(),
         last_active: Date.now()
       });
 		},
-    'activity.updateTime'(userId, activityId) {
-      Activities.update({user_id: userId, _id: activityId}, {
+    'userActivity.updateTime'(userId, activityId) {
+      userActivities.update({user_id: userId, _id: activityId}, {
         $inc: {
-          time_spent: 1000,
+          total_time: 1000,
           last_active: 1000
         },
       });
     }
 	});
 
-	// Defining schema for Meteor.activities collection
+	// Defining schema for userActivities collection
 
-	let Activities = new Meteor.Collection( 'Activities' );
+	let userActivities = new Meteor.Collection( 'userActivities' );
 
-	let Activity = new SimpleSchema({
+	let userActivity = new SimpleSchema({
 		user_id: {
   		type: String,
       optional: false,
@@ -46,7 +52,7 @@ if( Meteor.isServer ) {
   		type: String,
       optional: false
     },
-    time_spent: {
+    total_time: {
   		type: Number,
       optional: true
     },
@@ -76,6 +82,6 @@ if( Meteor.isServer ) {
 	});
 
 
-	Activities.attachSchema(Activity);
+	userActivities.attachSchema(userActivity);
 
 }

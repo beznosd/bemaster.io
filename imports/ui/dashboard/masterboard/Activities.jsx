@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
+import { userActivities } from '../../../api/Activities.js';
 
 class Activities extends Component {
 
@@ -18,9 +19,9 @@ class Activities extends Component {
 			var userId = Meteor.userId();
 			var activity = {
 				name: name,
-				timeSpent: 0
+				totalTime: 0
 			}
-			Meteor.call('activities.addActivity', userId, activity, function(error, result){
+			Meteor.call('userActivities.addActivity', userId, activity, function(error, result){
 				if (error) {
 					Materialize.toast(error.reason, 3000);
 				} else {
@@ -34,7 +35,7 @@ class Activities extends Component {
 
 	render() {
 		console.log("this.props.userData", this.props.userData);
-		console.log("this.props.userData", this.state.subscription);
+		console.log("this.props.userData", this.props.userActivities);
 		return (
 			<div>
 				<h1 className="test-tab-content">Activities</h1>
@@ -64,14 +65,19 @@ class Activities extends Component {
 }
 Activities.PropTypes = {
 	timerTime: PropTypes.object.isRequired,
-	userData: PropTypes.object.isRequired
+	userData: PropTypes.object.isRequired,
+	userActivities: PropTypes.object.isRequired
 }
 // export default Activities;
 
 export default createContainer(() => {
 	// const id = Meteor.userId();
 	Meteor.subscribe('userData');
+	var fff = Meteor.subscribe('userActivities', Meteor.userId());
+	var ttt = fff.ready();
+	var ggg = userActivities.findOne({user_id: Meteor.userId()});
 	return {
-		userData: Meteor.user()
+		userData: Meteor.user(),
+		userActivities: ttt ? ggg : {string: "Fuck you"}
 	};
 }, Activities);
