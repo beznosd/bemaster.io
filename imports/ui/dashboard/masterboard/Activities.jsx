@@ -75,7 +75,8 @@ export default createContainer(() => {
 	Meteor.subscribe('userData');
 	var fff = Meteor.subscribe('userActivities', Meteor.userId());
 	var ttt = fff.ready();
-	var ggg = userActivities.findOne({user_id: Meteor.userId()});
+	console.log("Subscribe status",ttt, fff);
+	var ggg = userActivities.find({user_id: Meteor.userId()}).fetch();
 	return {
 		userData: Meteor.user(),
 		userActivities: ttt ? ggg : {string: "Fuck you"}
