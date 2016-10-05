@@ -1,5 +1,11 @@
+// Core
 import React, { Component } from 'react';
+import { createContainer } from 'meteor/react-meteor-data';
 
+// Collections
+import { userActivities } from '../api/Activities.js';
+
+// Components
 import Header from './top_navbar/Header.jsx';
 import SideNav from './sidebar/SideNav.jsx';
 
@@ -10,9 +16,13 @@ class MainLayout extends Component {
 		const sideNav = ( !! Meteor.userId() ) ? <SideNav /> : '';
 		const containerClass = ( !! Meteor.userId() ) ? 'dashboard-container' : 'container';
 
+		console.log(this.props.userActivities);
+
+		let activityName = this.props.userActivities[0] ? this.props.userActivities[0].activity_name : '';
+
 		return (
 			<div className="main-layout">
-				<Header />
+				<Header activityName={activityName}/>
 				{sideNav}
 				<main className={containerClass}>
 					{this.props.content}
@@ -23,4 +33,11 @@ class MainLayout extends Component {
 
 }
 
-export default MainLayout;
+export default createContainer(() => {
+	Meteor.subscribe('userActivities', Meteor.userId());
+	return {
+		userActivities: userActivities.find({user_id: Meteor.userId()}).fetch()
+	};
+}, MainLayout);
+
+// export default MainLayout;

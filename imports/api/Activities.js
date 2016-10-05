@@ -2,9 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 // import { Accounts } from 'meteor/accounts-base';
 
-// Defining schema for userActivities collection
-
 export let userActivities = new Mongo.Collection( 'userActivities' );
+
+// Defining schema for userActivities collection
 
 let userActivity = new SimpleSchema({
 	user_id: {
@@ -47,15 +47,17 @@ let userActivity = new SimpleSchema({
 
 userActivities.attachSchema(userActivity);
 
+
 if( Meteor.isServer ) {
 
 	Meteor.publish('userActivities', function (userId) {
-		console.log("Publish=>subscribe userId",userId);
-		console.log("Publish=>subscribe result", userActivities.findOne({user_id: userId}));
+		// console.log("Publish=>subscribe userId",userId);
+		// console.log("Publish=>subscribe result", userActivities.findOne({user_id: userId}));
 		return userActivities.find({user_id: userId});
 	});
 
 	Meteor.methods({
+
     'userActivities.addActivity'(userId, activity) {
 			userActivities.insert({
         user_id: userId,
@@ -66,14 +68,15 @@ if( Meteor.isServer ) {
 				console.log("Me the result", result);
       	Meteor.users.update({_id: userId}, {$push: {activities: result}})
       });
-
 		},
+
     'userActivities.startActivity'(userId) {
 			userActivities.update({user_id: userId}, {
         started_at: Date.now(),
         last_active: Date.now()
       });
 		},
+
     'userActivity.updateTime'(userId, activityId) {
       userActivities.update({user_id: userId, _id: activityId}, {
         $inc: {
@@ -81,7 +84,12 @@ if( Meteor.isServer ) {
           last_active: 1000
         },
       });
-    }
+    },
+
+    'userActivity.insert'(ms, ticking) {
+			TimerTime.upsert({user_id: Meteor.userId()}, {ms: ms, ticking: ticking});
+		}
+
 	});
 
 }

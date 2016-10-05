@@ -18,7 +18,7 @@ class Header extends Component {
 
 	render() {
 
-		let navOptions = ( !! Meteor.userId() ) ? <LoggedInNav logout={this.logout} /> : <LoggedOutNav />;
+		let navOptions = ( !! Meteor.userId() ) ? <LoggedInNav activityName={this.props.activityName} logout={this.logout} /> : <LoggedOutNav />;
 
 		return (
 			<nav className='nav-header'>

@@ -12,7 +12,9 @@ if( Meteor.isServer ) {
 Meteor.methods({
 
 	'timerTime.insert'(ms, ticking) {
-		// TimerTime.upsert({userId: 1}, {seconds: seconds, minutes: minutes, hours: hours, userId: 1, ticking: ticking});
+		// console.log(Meteor.userId());
+		// to do
+		// update collection Activities, instead of total time
 		TimerTime.upsert({userId: 1}, {ms: ms, userId: 1, ticking: ticking});
 	}
 

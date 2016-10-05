@@ -8,6 +8,10 @@ class LoggedInNav extends Component {
 				<a href="/">
 					<img src="/bemaster-logo-small.png" height="64" alt="BeMaster logo"/>
 				</a>
+
+				<span className="current-activity">Current activity: </span>
+				<span className="activity-name">{this.props.activityName}</span>
+
 				<ul id="nav-mobile" className="right hide-on-med-and-down">
 					<li><a onClick={this.props.logout}>Logout</a></li>
 				</ul>

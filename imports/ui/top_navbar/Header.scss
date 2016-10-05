@@ -15,3 +15,17 @@
 .nav-header ul li a {
 	color: #424242;
 }
+
+/* Temp styles for top current activity label */
+
+.current-activity {
+	margin-left: 20px;
+	color: black;
+	font-size: 1.5rem;
+}
+
+.activity-name {
+	color: red;
+	display: inline-block;
+	font-size: 1.5rem;
+}
