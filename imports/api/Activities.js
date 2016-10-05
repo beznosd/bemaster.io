@@ -15,6 +15,10 @@ let userActivity = new SimpleSchema({
 		type: String,
 		optional: false
 	},
+	ticking: {
+		type: Boolean,
+		optional: true
+	},
 	total_time: {
 		type: Number,
 		optional: true
@@ -60,18 +64,20 @@ if( Meteor.isServer ) {
 			userActivities.insert({
         user_id: userId,
         activity_name: activity.name,
+				ticking: false,
         total_time: activity.totalTime,
         createdAt: Date.now()
       }, function (err, result) {
 				console.log("Me the result", result);
-      	Meteor.users.update({_id: userId}, {$push: {activities: result}})
+      	Meteor.users.update({_id: userId}, {$push: {activities: result}});
       });
-
 		},
-    'userActivities.startActivity'(userId) {
+    'userActivities.startActivity'(userId, activityId) {
 			userActivities.update({user_id: userId}, {
         started_at: Date.now(),
         last_active: Date.now()
+      }, function (err, result) {
+      	Meteor.users.update({_id: userId}, {"timer.currentActivity": activityId});
       });
 		},
     'userActivity.updateTime'(userId, activityId) {
