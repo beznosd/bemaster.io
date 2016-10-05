@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { userActivities } from '../../../api/Activities.js';
+import Activity from './Activity'
 
 class Activities extends Component {
 
@@ -36,13 +37,14 @@ class Activities extends Component {
 	render() {
 		console.log("this.props.userData", this.props.userData);
 		console.log("this.props.userData", this.props.userActivities);
+		// let activities = this.props.userActivities.map((data, iterator)=>{
+		// 	return
+		// });
 		return (
 			<div>
 				<h1 className="test-tab-content">Activities</h1>
 				<div className="row">
-					<div className="col s4">
-						No data
-					</div>
+					{this.props.userActivities ? this.props.userActivities.map((activity, i) => <Activity key={i} i={i} activity={activity}/>) : "Fuck you"}
 				</div>
 				<div className="row">
 					<h4 className="center-align">Create new Activity</h4>
@@ -79,6 +81,6 @@ export default createContainer(() => {
 	var ggg = userActivities.find({user_id: Meteor.userId()}).fetch();
 	return {
 		userData: Meteor.user(),
-		userActivities: ttt ? ggg : {string: "Fuck you"}
+		userActivities: ttt ? ggg : []
 	};
 }, Activities);

@@ -72,8 +72,6 @@ if( Meteor.isServer ) {
 	Accounts.onCreateUser((options, user) => {
 		user.activities = [];
 		user.timer = {
-			ms: 0,
-			ticking: false,
 			current_activity: ''
 		};
 		return user;

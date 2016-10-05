@@ -1,8 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-// import { Accounts } from 'meteor/accounts-base';
 
-export let userActivities = new Mongo.Collection( 'userActivities' );
+export let UserActivities = new Mongo.Collection( 'userActivities' );
 
 // Defining schema for userActivities collection
 
@@ -14,6 +13,10 @@ let userActivity = new SimpleSchema({
 	activity_name: {
 		type: String,
 		optional: false
+	},
+	ticking: {
+		type: Boolean,
+		optional: true
 	},
 	total_time: {
 		type: Number,
@@ -45,48 +48,49 @@ let userActivity = new SimpleSchema({
 });
 
 
-userActivities.attachSchema(userActivity);
+UserActivities.attachSchema(userActivity);
 
 
 if( Meteor.isServer ) {
 
 	Meteor.publish('userActivities', function (userId) {
-		// console.log("Publish=>subscribe userId",userId);
-		// console.log("Publish=>subscribe result", userActivities.findOne({user_id: userId}));
-		return userActivities.find({user_id: userId});
+		return UserActivities.find({user_id: userId});
 	});
 
 	Meteor.methods({
 
-    'userActivities.addActivity'(userId, activity) {
-			userActivities.insert({
-        user_id: userId,
-        activity_name: activity.name,
-        total_time: activity.totalTime,
-        createdAt: Date.now()
-      }, function (err, result) {
-				console.log("Me the result", result);
-      	Meteor.users.update({_id: userId}, {$push: {activities: result}})
-      });
+		'userActivities.addActivity' (userId, activity) {
+		    UserActivities.insert({
+		        user_id: userId,
+		        activity_name: activity.name,
+		        ticking: false,
+		        total_time: activity.totalTime,
+		        createdAt: Date.now()
+		    }, function(err, result) {
+		        console.log("Me the result", result);
+		        Meteor.users.update({ _id: userId }, { $push: { activities: result } });
+		    });
 		},
 
-    'userActivities.startActivity'(userId) {
-			userActivities.update({user_id: userId}, {
-        started_at: Date.now(),
-        last_active: Date.now()
-      });
+		'userActivities.startActivity' (userId, activityId) {
+		    UserActivities.update({ user_id: userId }, {
+		        started_at: Date.now(),
+		        last_active: Date.now()
+		    }, function(err, result) {
+		        Meteor.users.update({ _id: userId }, { "timer.currentActivity": activityId });
+		    });
 		},
 
-    'userActivity.updateTime'(userId, activityId) {
-      userActivities.update({user_id: userId, _id: activityId}, {
-        $inc: {
-          total_time: 1000,
-          last_active: 1000
-        },
-      });
-    },
+		'userActivity.updateTime' (userId, activityId) {
+		    UserActivities.update({ user_id: userId, _id: activityId }, {
+		        $inc: {
+		            total_time: 1000,
+		            last_active: 1000
+		        },
+		    });
+		},
 
-    'userActivity.insert'(ms, ticking) {
+	    'userActivity.insert'(ms, ticking) {
 			TimerTime.upsert({user_id: Meteor.userId()}, {ms: ms, ticking: ticking});
 		}
 
