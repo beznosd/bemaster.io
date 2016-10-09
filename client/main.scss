@@ -1,0 +1,20 @@
+$blueLighten-1: #42a5f5;
+$blueGreyLightenColor-1: #90a4ae;
+$blueGreyLightenColor-4: #cfd8dc;
+$green: #4caf50;
+$red: #f44336;
+$brownLighten-5: #efebe9;
+$brownLighten-4: #d7ccc8;
+$brownLighten-2: #a1887f;
+$greyDarken-3: #424242;
+
+@import '../imports/ui/dashboard/Dashoard.scss';
+@import '../imports/ui/dashboard/Masterboard.scss';
+@import '../imports/ui/dashboard/masterboard/TimerButtons.scss';
+@import '../imports/ui/dashboard/masterboard/CurrentProgress.scss';
+@import '../imports/ui/dashboard/masterboard/Activities.scss';
+@import '../imports/ui/dashboard/masterboard/Tabs.scss';
+@import '../imports/ui/dashboard/Profile.scss';
+@import '../imports/ui/top_navbar/Header.scss';
+@import '../imports/ui/account/LoginSignup.scss';
+@import '../imports/ui/sidebar/SideNav.scss';

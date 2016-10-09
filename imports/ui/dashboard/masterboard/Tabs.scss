@@ -1,0 +1,11 @@
+.tabs-row {
+	margin-top: 70px;
+
+	.tabs .indicator {
+		background-color: $green;
+	}
+
+	.tabs .tab a {
+		cursor: pointer;
+	}
+}

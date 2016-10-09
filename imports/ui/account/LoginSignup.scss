@@ -1,0 +1,63 @@
+.btn-login-signup {
+	width: 100%;
+}
+
+/* label focus color */
+.input-field input[type=text]:focus + label {
+	color: $green;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus {
+	border-bottom: 1px solid $green;
+	box-shadow: 0 1px 0 0 $green;
+}
+/* valid color */
+.input-field input[type=text].valid {
+	border-bottom: 1px solid $green;
+	box-shadow: 0 1px 0 0 $green;
+}
+/* invalid color */
+.input-field input[type=text].invalid {
+	border-bottom: 1px solid $red;
+	box-shadow: 0 1px 0 0 $red;
+}
+
+/* email focus color */
+.input-field input[type=email]:focus + label {
+	color: $green;
+}
+/* email underline focus color */
+.input-field input[type=email]:focus {
+	border-bottom: 1px solid $green;
+	box-shadow: 0 1px 0 0 $green;
+}
+/* valid color */
+.input-field input[type=email].valid {
+	border-bottom: 1px solid $green;
+	box-shadow: 0 1px 0 0 $green;
+}
+/* invalid color */
+.input-field input[type=email].invalid {
+	border-bottom: 1px solid $red;
+	box-shadow: 0 1px 0 0 $red;
+}
+
+/* password focus color */
+.input-field input[type=password]:focus + label {
+	color: $green;
+}
+/* password underline focus color */
+.input-field input[type=password]:focus {
+	border-bottom: 1px solid $green;
+	box-shadow: 0 1px 0 0 $green;
+}
+/* valid color */
+.input-field input[type=password].valid {
+	border-bottom: 1px solid $green;
+	box-shadow: 0 1px 0 0 $green;
+}
+/* invalid color */
+.input-field input[type=password].invalid {
+	border-bottom: 1px solid $red;
+	box-shadow: 0 1px 0 0 $red;
+}
