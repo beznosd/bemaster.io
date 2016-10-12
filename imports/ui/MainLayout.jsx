@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
 // Collections
-import { userActivities } from '../api/Activities.js';
+import { UserActivities } from '../api/Activities.js';
 
 // Components
 import Header from './top_navbar/Header.jsx';
@@ -36,7 +36,7 @@ class MainLayout extends Component {
 export default createContainer(() => {
 	Meteor.subscribe('userActivities', Meteor.userId());
 	return {
-		userActivities: userActivities.find({user_id: Meteor.userId()}).fetch()
+		userActivities: UserActivities.find({user_id: Meteor.userId()}).fetch()
 	};
 }, MainLayout);
 

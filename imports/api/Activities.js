@@ -73,11 +73,15 @@ if( Meteor.isServer ) {
 		},
 
 		'userActivities.startActivity' (userId, activityId) {
+			console.log("userActivities.startActivity", userId, activityId);
 		    UserActivities.update({ user_id: userId }, {
-		        started_at: Date.now(),
-		        last_active: Date.now()
+				$set:{
+					started_at: Date.now(),
+					last_active: Date.now(),
+					ticking: true
+				}
 		    }, function(err, result) {
-		        Meteor.users.update({ _id: userId }, { "timer.currentActivity": activityId });
+		        Meteor.users.update({ _id: userId }, { $set: {"timer.current_activity": activityId }});
 		    });
 		},
 

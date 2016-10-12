@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import { userActivities } from '../../../api/Activities.js';
+import { UserActivities } from '../../../api/Activities.js';
 import Activity from './Activity'
 
 class Activities extends Component {
@@ -78,7 +78,7 @@ export default createContainer(() => {
 	var fff = Meteor.subscribe('userActivities', Meteor.userId());
 	var ttt = fff.ready();
 	console.log("Subscribe status",ttt, fff);
-	var ggg = userActivities.find({user_id: Meteor.userId()}).fetch();
+	var ggg = UserActivities.find({user_id: Meteor.userId()}).fetch();
 	return {
 		userData: Meteor.user(),
 		userActivities: ttt ? ggg : []
