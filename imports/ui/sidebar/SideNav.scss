@@ -17,9 +17,11 @@
 }
 
 .side-navigation {
-	position: absolute;
+	position: fixed;
 	width: 16%;
 	height: 100%;
+	padding-top: 70px;
+	top: 0;
 	left: 0;
 	color: $brownLighten-5;
 }

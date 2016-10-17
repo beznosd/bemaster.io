@@ -16,7 +16,7 @@ class MainLayout extends Component {
 		const sideNav = ( !! Meteor.userId() ) ? <SideNav /> : '';
 		const containerClass = ( !! Meteor.userId() ) ? 'dashboard-container' : 'container';
 
-		console.log(this.props.userActivities);
+		// console.log(this.props.userActivities);
 
 		let activityName = this.props.userActivities[0] ? this.props.userActivities[0].activity_name : '';
 
@@ -34,7 +34,7 @@ class MainLayout extends Component {
 }
 
 export default createContainer(() => {
-	Meteor.subscribe('userActivities', Meteor.userId());
+	Meteor.subscribe('userActivities');
 	return {
 		userActivities: UserActivities.find({user_id: Meteor.userId()}).fetch()
 	};

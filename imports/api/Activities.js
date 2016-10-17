@@ -53,8 +53,8 @@ UserActivities.attachSchema(userActivity);
 
 if( Meteor.isServer ) {
 
-	Meteor.publish('userActivities', function (userId) {
-		return UserActivities.find({user_id: userId});
+	Meteor.publish('userActivities', function(){
+		return UserActivities.find({user_id: this.userId});
 	});
 
 	Meteor.methods({
@@ -73,9 +73,8 @@ if( Meteor.isServer ) {
 		},
 
 		'userActivities.startActivity' (userId, activityId) {
-			console.log("userActivities.startActivity", userId, activityId);
 		    UserActivities.update({ user_id: userId }, {
-				$set:{
+				$set: {
 					started_at: Date.now(),
 					last_active: Date.now(),
 					ticking: true
@@ -85,17 +84,29 @@ if( Meteor.isServer ) {
 		    });
 		},
 
-		'userActivity.updateTime' (userId, activityId) {
-		    UserActivities.update({ user_id: userId, _id: activityId }, {
-		        $inc: {
-		            total_time: 1000,
-		            last_active: 1000
-		        },
+		'userActivities.switchActivity' (activityId, ticking) {
+			// update ticking state
+		    UserActivities.update({ _id: activityId }, {
+				$set: {
+					ticking: ticking
+				}
 		    });
 		},
 
-	    'userActivity.insert'(ms, ticking) {
-			TimerTime.upsert({user_id: Meteor.userId()}, {ms: ms, ticking: ticking});
+	    'userActivity.trackTime' (activityId, ms) {
+			UserActivities.update({ _id: activityId }, {
+		        $set: {
+		            total_time: ms,
+		            last_active: Date.now()
+		        }
+		    });
+		    if (ms === 0) {
+				UserActivities.update({ _id: activityId }, {
+					$set: {
+						started_at: Date.now()
+					}
+			    });
+		    }
 		}
 
 	});

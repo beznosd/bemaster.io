@@ -3,12 +3,21 @@ import React, { Component } from 'react';
 class SideNav extends Component {
 
 	componentDidMount() {
-		$(".button-collapse").sideNav();
+		window.onscroll = this.menuTopSticking.bind(this);
+	}
+
+	menuTopSticking() {
+		let rootEl = this.refs.rootEl;
+		if (window.pageYOffset >= 70) {
+			rootEl.style.paddingTop = 0 + 'px';
+		} else {
+			rootEl.style.paddingTop = 70 - window.pageYOffset + 'px';
+		}
 	}
 
 	render() {
 		return (
-			<div className="side-navigation brown lighten-1">
+			<div ref="rootEl" className="side-navigation brown lighten-1">
 				
 				<div className="user-link valign-wrapper">
 					<img className="circle" src="/yuna.jpg" width="45" alt="User Name" />

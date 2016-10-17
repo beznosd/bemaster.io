@@ -41,7 +41,9 @@ class TimerButton extends Component {
 			window.i = Meteor.setInterval(function(){
 
 				if (!this.state.ticking) {
-					Meteor.call('timerTime.insert', this.state.ms, this.state.ticking);
+					Meteor.call('userActivities.switchActivity', this.props.userActivities[0]._id, this.state.ticking);
+					Meteor.call('userActivity.trackTime', this.props.userActivities[0]._id, this.state.ms);
+
 					Meteor.clearInterval(window.i);
 					return;
 				}
@@ -49,12 +51,15 @@ class TimerButton extends Component {
 				let ms = this.state.ms + 1000;
 				this.setState({ ms: ms });
 
-				Meteor.call('timerTime.insert', this.state.ms, this.state.ticking);
+				Meteor.call('userActivities.switchActivity', this.props.userActivities[0]._id, this.state.ticking);
+				Meteor.call('userActivity.trackTime', this.props.userActivities[0]._id, this.state.ms);
 
 			}.bind(this), 1000);
 
 		} else {
-			Meteor.call('timerTime.insert', this.state.ms, this.state.ticking);
+			Meteor.call('userActivities.switchActivity', this.props.userActivities[0]._id, this.state.ticking);
+			Meteor.call('userActivity.trackTime', this.props.userActivities[0]._id, this.state.ms);
+
 			Meteor.clearInterval(window.i);
 		}
 
@@ -66,32 +71,31 @@ class TimerButton extends Component {
 		// update state with data from DB before start timer
 		this.updateComponentStates();
 
-		if (this.state.ticking === false) {
-			this.state.ticking = true;
-		} else {
-			this.state.ticking = false;
-		}
+		this.state.ticking = !this.state.ticking;
 
-		Meteor.call('timerTime.insert', this.state.ms, this.state.ticking);
+		Meteor.call('userActivities.switchActivity', this.props.userActivities[0]._id, this.state.ticking);
+		Meteor.call('userActivity.trackTime', this.props.userActivities[0]._id, this.state.ms);
 
 		this.timer();
 
 	}
 
+	//this.props.userActivities
+
 	// update data on all clients' components
 	componentWillReceiveProps(nextProps) {
-		this.setState({ ticking: nextProps.timerTime[0].ticking });
-		this.setState({ ms: nextProps.timerTime[0].ms });
+		this.setState({ ticking: nextProps.userActivities[0].ticking });
+		this.setState({ ms: nextProps.userActivities[0].total_time });
 
-		if ( this.getHours(nextProps.timerTime[0].ms) > 0) {
+		if ( this.getHours(nextProps.userActivities[0].total_time) > 0) {
 			this.minimizeNumsFont();
 		}
 	}
 
 	// Update time states to recently logged time if it exists in db
 	updateComponentStates() {
-		if ( this.props.timerTime[0] && this.props.timerTime[0].ms) {
-			this.setState({ ms: this.props.timerTime[0].ms });
+		if ( this.props.userActivities[0] && this.props.userActivities[0].total_time) {
+			this.setState({ ms: this.props.userActivities[0].total_time });
 		}
 	}
 
@@ -100,8 +104,8 @@ class TimerButton extends Component {
 		// at first launch render initial time (0ms)
 		let ms = this.state.ms;
 		// check for db data and apply it, if exists
-		if ( this.props.timerTime[0] ) {
-			ms = this.props.timerTime[0].ms;
+		if ( this.props.userActivities[0] ) {
+			ms = this.props.userActivities[0].total_time;
 		}
 
 		let seconds = this.getSeconds(ms);
@@ -131,22 +135,22 @@ class TimerButton extends Component {
 		if (this.props.timerTime[0]) {
 
 			var timerNumsClasses = classnames({
-				hidden: !this.props.timerTime[0].ticking,
-				'display-block': this.props.timerTime[0].ticking,
+				hidden: !this.props.userActivities[0].ticking,
+				'display-block': this.props.userActivities[0].ticking,
 				'timer-nums': true,
 				animated: true,
 				zoomIn: true
 			});
 			var timerPauseTimeClasses = classnames({
-				hidden: this.props.timerTime[0].ticking,
-				'display-block': !this.props.timerTime[0].ticking,
+				hidden: this.props.userActivities[0].ticking,
+				'display-block': !this.props.userActivities[0].ticking,
 				'timer-pause_time': true,
 				animated: true,
 				zoomIn: true
 			});
 			var timerStartArrowClasses = classnames({
-				hidden: this.props.timerTime[0].ticking,
-				'display-block': !this.props.timerTime[0].ticking,
+				hidden: this.props.userActivities[0].ticking,
+				'display-block': !this.props.userActivities[0].ticking,
 				'timer-start_arrow': true,
 				animated: true,
 				zoomIn: true
@@ -169,6 +173,7 @@ class TimerButton extends Component {
 		}
 
 		return (
+			
 			<div className={timerButtonClasses}>
 				<span onClick={this.toggleTimer.bind(this)} className="timer">
 					<span ref="timerNums" className={timerNumsClasses} style={{display: ''}}>
@@ -188,8 +193,8 @@ class TimerButton extends Component {
 
 }
 
-TimerButton.PropTypes = {
+/*TimerButton.PropTypes = {
 	timerTime: PropTypes.array.isRequired
-}
+}*/
 
 export default TimerButton;

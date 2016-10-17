@@ -7,6 +7,7 @@ import Activities from './masterboard/Activities.jsx'
 import CurrentProgress from './masterboard/CurrentProgress.jsx';
 
 import { TimerTime } from '../../api/TimerTime.js';
+import { UserActivities } from '../../api/Activities.js';
 
 class MasterBoard extends Component {
 
@@ -36,7 +37,11 @@ class MasterBoard extends Component {
 
 		return (
 			<div className="master-board">
-				<TimerButton hideButton={this.state.timer} timerTime={this.props.timerTime}/>
+				<TimerButton 
+					hideButton={this.state.timer} 
+					timerTime={this.props.timerTime} 
+					userActivities={this.props.userActivities}
+				/>
 				
 				{this.state.activities ? <Activities /> : ''}
 				{this.state.currentProgress ? <CurrentProgress timerTime={this.props.timerTime}/> : ''}
@@ -50,12 +55,15 @@ class MasterBoard extends Component {
 }
 
 MasterBoard.PropTypes = {
-	timerTime: PropTypes.array.isRequired
+	timerTime: PropTypes.array.isRequired,
+	userActivities: PropTypes.array.isRequired
 }
 
 export default createContainer(() => {
 	Meteor.subscribe('timerTime');
+	Meteor.subscribe('userActivities');
 	return {
 		timerTime: TimerTime.find({userId: 1}).fetch(),
+		userActivities: UserActivities.find({user_id: Meteor.userId()}).fetch()
 	};
 }, MasterBoard);
