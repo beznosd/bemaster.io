@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
-import '../imports/api/TimerTime.js';
-import '../imports/api/Profile.js';
-import '../imports/api/Activities.js';
+import '../imports/api/TimerTime';
+import '../imports/api/Profile';
+import '../imports/api/Activities';
 
 // import { TimerTime } from '../imports/api/TimerTime.js';
 
