@@ -135,7 +135,7 @@ class D3Gradient extends Component {
   }
 }
 
-class D3TimeLineChart extends Component{
+class TimeLineChart extends Component{
   constructor(props) {
     super(props);
     this.state = {width: props.width, tooltip: {display:false,data:{key:'',value:''}}};
@@ -302,4 +302,4 @@ class D3TimeLineChart extends Component{
   }
 }
 
-export default D3TimeLineChart;
+export default TimeLineChart;

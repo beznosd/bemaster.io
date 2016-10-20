@@ -132,7 +132,7 @@ class TimerButton extends Component {
 			'timer-block': true
 		});
 
-		if (this.props.timerTime[0]) {
+		if (this.props.userActivities[0]) {
 
 			var timerNumsClasses = classnames({
 				hidden: !this.props.userActivities[0].ticking,
@@ -173,7 +173,7 @@ class TimerButton extends Component {
 		}
 
 		return (
-			
+
 			<div className={timerButtonClasses}>
 				<span onClick={this.toggleTimer.bind(this)} className="timer">
 					<span ref="timerNums" className={timerNumsClasses} style={{display: ''}}>

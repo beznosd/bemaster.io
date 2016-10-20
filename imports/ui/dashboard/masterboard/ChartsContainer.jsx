@@ -2,23 +2,10 @@
 import moment from 'moment';
 import React from 'react';
 import {Component} from 'react';
-import D3TimeAreaChart from './awesomeAreaChart.jsx';
-import D3TimeLineChart from './awesomeLineChart.jsx';
-import D3DonutChart from './awesomeDonutChart.jsx';
-import D3StackedChart from './awesomeStackedBarChart.jsx';
-
-class Page extends Component {
-  render(){
-    return (
-      <div className="col s12">
-        <MainRangeSelection/>
-        <Cards />
-        <MainContainer />
-        <SubContainer />
-      </div>
-    );
-  }
-}
+import TimeAreaChart from './AreaChart.jsx';
+import TimeLineChart from './LineChart.jsx';
+import DonutChart from './DonutChart.jsx';
+import StackedChart from './StackedBarChart.jsx';
 
 class Range extends Component {
   render(){
@@ -114,20 +101,13 @@ class PanelHeader extends Component {
 class MainContainer extends Component {
   render(){
     let color=['#53c79f','#e58c72','#7a6fca','#ca6f96','#64b0cc','#e5c072'];
-    let dataPie = [
-            { name: 'Maintenance' },
-            { name: 'New Development' },
-            { name: 'Support'},
-            { name: 'ISLA'},
-            { name: 'Others'}
+    let dataPie = this.props.userActivities;
+    console.log("dataPie", this.props.userActivities);
+    for(let i=0;i<this.props.userActivities.length;i++){
 
-        ];
-
-    for(let i=0,j=4;i<5;++i,--j){
-
-        let d=dataPie[j];
-        d.count=Math.floor((Math.random() * 50) + 5);
-        dataPie[j]=d;
+        let d=dataPie[i];
+        d.count=Math.floor(this.props.userActivities[i].total_time + this.props.userActivities.length);
+        dataPie[i]=d;
     }
 
     let dataBar=[
@@ -160,10 +140,10 @@ class MainContainer extends Component {
             <PanelHeader title="Traffic Source">
               <Range/>
             </PanelHeader>
-            <D3DonutChart id="bs_chart" data={dataPie} color={color} height={300} width={500}
-                        enable3d={true} innerRadiusRatio={3} padAngle={0} label="name" shadowSize={10} point="count">
+            <DonutChart id="bs_chart" data={dataPie} color={color} height={300} width={500}
+                        enable3d={true} innerRadiusRatio={3} padAngle={0} label="activity_name" shadowSize={10} point="count">
               <legend radius={10}></legend>
-            </D3DonutChart>
+            </DonutChart>
           </Panel>
         </div>
         <div className="col m6 custom_padding" >
@@ -171,12 +151,12 @@ class MainContainer extends Component {
             <PanelHeader title="Traffic Source">
               <Range/>
             </PanelHeader>
-            <D3StackedChart data={dataBar} width="600" height="350" margin={margin} xData="month"
+            <StackedChart data={dataBar} width="600" height="350" margin={margin} xData="month"
                       id="stacked-bar" keys={keys} color={color} twoColorScheme={true}>
               <yGrid orient="left" className="y-grid" ticks={5}/>
               <xAxis orient="bottom" className="axis" ticks={5}/>
               <yAxis orient="left" className="axis" ticks={5}/>
-            </D3StackedChart>
+            </StackedChart>
           </Panel>
         </div>
       </div>
@@ -221,7 +201,7 @@ class SubContainer extends Component {
             <PanelHeader title="Traffic Source">
               <Range/>
             </PanelHeader>
-            <D3TimeAreaChart width="600" height="350" margin={margin} xData="date" data={dataArea} yData="count" type="type"
+            <TimeAreaChart width="600" height="350" margin={margin} xData="date" data={dataArea} yData="count" type="type"
                  yMaxBuffer={10} id="multi-area-chart" interpolations="cardinal">
                 <yGrid orient="left" className="y-grid" ticks={5}/>
                 <xAxis orient="bottom" className="axis" tickFormat="%d/%m" ticks={4}/>
@@ -229,7 +209,7 @@ class SubContainer extends Component {
                 <area className="area" fill="#ca6f96" value="C"/>
                 <area className="area" fill="#53c79f" value="B"/>
                 <area className="area" fill="#e58c72" value="A"/>
-            </D3TimeAreaChart>
+            </TimeAreaChart>
           </Panel>
         </div>
         <div className="col m6 custom_padding" >
@@ -237,7 +217,7 @@ class SubContainer extends Component {
             <PanelHeader title="Traffic Source">
               <Range/>
             </PanelHeader>
-            <D3TimeLineChart width="600" height="350" data={data} xData="date" yData="count" margin={margin}
+            <TimeLineChart width="600" height="350" data={data} xData="date" yData="count" margin={margin}
                  yMaxBuffer={10} id="line-chart">
                 <defs>
                     <gradient color1="#fff" color2="#53c79f" id="area"/>
@@ -250,7 +230,7 @@ class SubContainer extends Component {
                 <path className="line shadow" strokeLinecap="round"/>
                 <dots r="5" format="%b %e" removeFirstAndLast={false}/>
                 <tooltip textStyle1="tooltip-text1" textStyle2="tooltip-text1" bgStyle="tooltip-bg" xValue="Date" yValue="Count"/>
-            </D3TimeLineChart>
+            </TimeLineChart>
           </Panel>
         </div>
       </div>
@@ -258,4 +238,17 @@ class SubContainer extends Component {
   }
 }
 
-export default Page;
+class ChartsContainer extends Component {
+  render(){
+    return (
+      <div className="col s12">
+        <MainRangeSelection/>
+        <Cards />
+        <MainContainer userActivities={this.props.userActivities}/>
+        <SubContainer />
+      </div>
+    );
+  }
+}
+
+export default ChartsContainer;

@@ -37,14 +37,13 @@ class MasterBoard extends Component {
 
 		return (
 			<div className="master-board">
-				<TimerButton 
-					hideButton={this.state.timer} 
-					timerTime={this.props.timerTime} 
+				<TimerButton
+					hideButton={this.state.timer}
 					userActivities={this.props.userActivities}
 				/>
-				
+
 				{this.state.activities ? <Activities /> : ''}
-				{this.state.currentProgress ? <CurrentProgress timerTime={this.props.timerTime}/> : ''}
+				{this.state.currentProgress ? <CurrentProgress userActivities={this.props.userActivities}/> : ''}
 
 				<Tabs showElement={this.showElement.bind(this)} />
 			</div>
@@ -60,10 +59,8 @@ MasterBoard.PropTypes = {
 }
 
 export default createContainer(() => {
-	Meteor.subscribe('timerTime');
 	Meteor.subscribe('userActivities');
 	return {
-		timerTime: TimerTime.find({userId: 1}).fetch(),
 		userActivities: UserActivities.find({user_id: Meteor.userId()}).fetch()
 	};
 }, MasterBoard);

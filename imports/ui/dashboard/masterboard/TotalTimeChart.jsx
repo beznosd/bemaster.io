@@ -65,13 +65,12 @@ class TotalTimeChart extends Component {
     this.state = {
       width: '100%',
       height: 60,
-      data: (((this.props.timerTime[0].seconds * 1000) + (this.props.timerTime[0].minutes * 60 * 1000))/(20*60*1000))
+      data: (this.props.userActivities[0].total_time/(20*60*1000))
     };
   }
   componentWillReceiveProps(nextProps){
     console.log(nextProps);
-    // let compileTotalTime = ((((nextProps.timerTime[0].seconds * 60)*60)+((nextProps.timerTime[0].minutes)*60)+(nextProps.timerTime[0].seconds))/(((nextProps.timerTime[0].seconds * 10)*60)*60));
-        let compileTotalTime = (((nextProps.timerTime[0].seconds * 1000) + (nextProps.timerTime[0].minutes * 60 * 1000))/(20*60*1000));
+        let compileTotalTime = (nextProps.userActivities[0].total_time/(20*60*1000));
     this.setState({ data: compileTotalTime});
   }
   render(){

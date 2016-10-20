@@ -121,7 +121,7 @@ class DonutChartLegend extends Component{
   }
 }
 
-class D3DonutChart extends Component {
+class DonutChart extends Component {
   componentWillMount(){
     let _self=this;
 
@@ -169,4 +169,4 @@ class D3DonutChart extends Component {
   }
 }
 
-export default D3DonutChart;
+export default DonutChart;

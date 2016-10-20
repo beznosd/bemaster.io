@@ -49,7 +49,7 @@ class D3Grid extends Component {
   }
 }
 
-class D3StackedChart extends Component{
+class StackedChart extends Component{
   createChart(_self){
     if(this.props.color.length>0){
         this.color=d3.scale.ordinal()
@@ -162,4 +162,4 @@ class D3StackedChart extends Component{
   }
 }
 
-export default D3StackedChart;
+export default StackedChart;

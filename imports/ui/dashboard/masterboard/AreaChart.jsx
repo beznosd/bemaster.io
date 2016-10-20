@@ -63,7 +63,7 @@ class Grid extends Component {
   }
 }
 
-class D3TimeAreaChart extends Component {
+class TimeAreaChart extends Component {
     constructor(props) {
       super(props);
       this.state = {width: props.width};
@@ -172,4 +172,4 @@ class D3TimeAreaChart extends Component {
   }
 }
 
-export default D3TimeAreaChart;
+export default TimeAreaChart;
