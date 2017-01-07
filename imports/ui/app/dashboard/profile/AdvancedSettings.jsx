@@ -37,19 +37,19 @@ class AdvancesSettings extends Component {
 				<div className="row">
 					<div className="input-field col s12">
 						<input ref="race" id="race" type="text" className="validate" />
-						<label for="race">Race (human, elf, vampire etc.)</label>
+						<label htmlFor="race">Race (human, elf, vampire etc.)</label>
 					</div>
 					<div className="input-field col s12">
 						<input ref="age" id="age" type="text" className="validate" />
-						<label for="age">Your Age</label>
+						<label htmlFor="age">Your Age</label>
 					</div>
 					<div className="input-field col s12">
 						<input ref="country" id="country" type="text" className="validate" />
-						<label for="country">Where are you from</label>
+						<label htmlFor="country">Where are you from</label>
 					</div>
 					<div className="input-field col s12">
 						<textarea ref="story" id="story" type="text" className="materialize-textarea" />
-						<label for="story">Tell another masters something about you</label>
+						<label htmlFor="story">Tell another masters something about you</label>
 					</div>
 					<div className="right-align input-field col s12">
 						<a className="save-btn waves-effect waves-light btn btn-block green">Save</a>

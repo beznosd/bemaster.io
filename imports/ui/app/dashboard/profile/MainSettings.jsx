@@ -59,11 +59,11 @@ class MainSettings extends Component {
 				<div className="row">
 					<div className="input-field col s12">
 						<input onChange={this.props.onChangeUsername} ref="alias" id="alias" type="text" className="validate" value={this.props.username ? this.props.username : ''} />
-						<label className={labelAliasClass} for="alias">Your Master's Alias</label>
+						<label className={labelAliasClass} htmlFor="alias">Your Master's Alias</label>
 					</div>
 					<div className="input-field col s12">
 						<input onChange={this.props.onChangeEmail} ref="email" id="email" type="email" className="validate" value={this.props.email ? this.props.email : ''} />
-						<label className={labelEmailClass} for="email">Your email</label>
+						<label className={labelEmailClass} htmlFor="email">Your email</label>
 					</div>
 					<div className="right-align input-field col s12">
 						<a onClick={this.saveMainSettings.bind(this)} className="save-btn waves-effect waves-light btn btn-block green">Save</a>

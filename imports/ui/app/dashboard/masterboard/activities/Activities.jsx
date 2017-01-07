@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import { UserActivities } from '../../../api/Activities.js';
-import Activity from './Activity'
+import { UserActivities } from '../../../../../api/Activities.js';
+import Activity from './activity/Activity.jsx';
 
 class Activities extends Component {
 
@@ -35,14 +35,14 @@ class Activities extends Component {
 	}
 
 	render() {
-		console.log("this.props.userData", this.props.userData);
-		console.log("this.props.userData", this.props.userActivities);
+		// console.log("this.props.userData", this.props.userData);
+		// console.log("this.props.userData", this.props.userActivities);
 		// let activities = this.props.userActivities.map((data, iterator)=>{
 		// 	return
 		// });
 		return (
-			<div>
-				<h1 className="test-tab-content">Activities</h1>
+			<div className="test-tab-content">
+				<h1>Activities</h1>
 				<div className="row">
 					{this.props.userActivities ? this.props.userActivities.map((activity, i) => <Activity key={i} i={i} activity={activity}/>) : "Fuck you"}
 				</div>

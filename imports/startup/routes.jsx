@@ -1,26 +1,21 @@
 import React from 'react';
 import { mount } from 'react-mounter';
 
-// load Layouts and Welcome React components
+import App from '../ui/App.jsx';
 
-import MainLayout from '../ui/MainLayout.jsx';
+import HomePage from '../ui/homepage/HomePage.jsx';
 
-import HomePage from '../ui/HomePage.jsx';
-
-import Profile from '../ui/dashboard/Profile.jsx';
-import MasterBoard from '../ui/dashboard/MasterBoard.jsx';
+import Profile from '../ui/app/dashboard/profile/Profile.jsx';
+import MasterBoard from '../ui/app/dashboard/masterboard/MasterBoard.jsx';
 
 import Login from '../ui/account/Login.jsx';
 import SignUp from '../ui/account/SignUp.jsx'
 
-import NotFound from '../ui/NotFound.jsx';
-
-// First we import some modules...
-// import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router';
+import NotFound from '../ui/errors/404.jsx';
 
 FlowRouter.route("/", {
 	action() {
-		mount(MainLayout, {
+		mount(App, {
 			content: <HomePage />
 		});
 	}
@@ -28,7 +23,7 @@ FlowRouter.route("/", {
 
 FlowRouter.route('/signup', {
 	action() {
-		mount(MainLayout, {
+		mount(App, {
 			content: <SignUp />
 		});
 	}
@@ -36,7 +31,7 @@ FlowRouter.route('/signup', {
 
 FlowRouter.route('/login', {
 	action() {
-		mount(MainLayout, {
+		mount(App, {
 			content: <Login />
 		});
 	}
@@ -50,7 +45,7 @@ FlowRouter.route('/logout', {
 
 FlowRouter.route("/profile", {
 	action() {
-		mount(MainLayout, {
+		mount(App, {
 			content: <Profile />
 		});
 	}
@@ -58,7 +53,7 @@ FlowRouter.route("/profile", {
 
 FlowRouter.route("/masterboard", {
 	action() {
-		mount(MainLayout, {
+		mount(App, {
 			content: <MasterBoard />
 		});
 	}
@@ -66,20 +61,6 @@ FlowRouter.route("/masterboard", {
 
 FlowRouter.notFound = {
 	action() {
-		mount(MainLayout, { content: <NotFound /> });
+		mount(App, { content: <NotFound /> });
 	}
 };
-
-
-// FlowRouter.route("/masterboard", {
-// 	action() {
-// 		mount(MainLayout, {
-// 			content: (<Router history={hashHistory}>
-// 						<Route path="/" component={MasterBoard}>
-// 							<IndexRoute component={TimerButton} />
-// 							<Route path="activities" component={Activities} />
-// 						</Route>
-// 					</Router>)
-// 		});
-// 	}
-// });

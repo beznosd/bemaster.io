@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 
 import classnames from 'classnames';
@@ -132,7 +132,7 @@ class TimerButton extends Component {
 			'timer-block': true
 		});
 
-		if (this.props.timerTime[0]) {
+		if (this.props.userActivities[0]) {
 
 			var timerNumsClasses = classnames({
 				hidden: !this.props.userActivities[0].ticking,
@@ -192,9 +192,5 @@ class TimerButton extends Component {
 	}
 
 }
-
-/*TimerButton.PropTypes = {
-	timerTime: PropTypes.array.isRequired
-}*/
 
 export default TimerButton;

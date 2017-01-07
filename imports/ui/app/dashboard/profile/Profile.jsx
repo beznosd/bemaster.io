@@ -3,20 +3,19 @@ import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import classnames from 'classnames';
 
-import MainSettings from './profile/MainSettings.jsx';
-import AdvancedSettings from './profile/AdvancedSettings.jsx';
-import ChangePassword from './profile/ChangePassword.jsx';
+import MainSettings from './MainSettings.jsx';
+import ChangePassword from './ChangePassword.jsx';
 
 class Profile extends Component {
 
 	constructor(props) {
 		super(props);
 
-        this.state = {
-            username: '',
+		this.state = {
+			username: '',
 			email: '',
-			currentSettings: ''
-        };
+			currentSettings: '',
+		};
 	}
 
 	componentDidMount() {
@@ -92,9 +91,6 @@ class Profile extends Component {
 					<div className="row">
 						<div className="col s2">
 							<div className="row avatar-row center-align">
-								{/*<div onClick={this.showChooseWindow.bind(this)} className="avatar-icon">
-									<i className="fa fa-user fa-5x"></i>
-								</div>*/}
 								<div className="thumbnail">
 									<img onClick={this.showChooseWindow.bind(this)} src="/yuna.jpg" alt="" className="avatar-img" />
 								</div>
@@ -104,7 +100,6 @@ class Profile extends Component {
 								<a ref="settingsFlag" className='dropdown-button btn btn-block blue-grey lighten-1' href='#' data-activates='settings'>Main Settings</a>
 								<ul id='settings' className='dropdown-content'>
 									<li><a onClick={this.changeSettingsComponent.bind(this)} data-settings="main" href="#">Main Settings</a></li>
-									{/*<li><a onClick={this.changeSettingsComponent.bind(this)} data-settings="advanced" href="#">Advanced settings</a></li>*/}
 									<li><a onClick={this.changeSettingsComponent.bind(this)} data-settings="changepass" href="#">Change password</a></li>
 								</ul>
 							</div>

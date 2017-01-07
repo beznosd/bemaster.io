@@ -1,4 +1,3 @@
-// Core
 import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
@@ -6,10 +5,10 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { UserActivities } from '../api/Activities.js';
 
 // Components
-import Header from './top_navbar/Header.jsx';
-import SideNav from './sidebar/SideNav.jsx';
+import Header from './header/Header.jsx';
+import SideNav from './app/sidebar/SideNav.jsx';
 
-class MainLayout extends Component {
+class App extends Component {
 
 	render() {
 
@@ -38,6 +37,4 @@ export default createContainer(() => {
 	return {
 		userActivities: UserActivities.find({user_id: Meteor.userId()}).fetch()
 	};
-}, MainLayout);
-
-// export default MainLayout;
+}, App);

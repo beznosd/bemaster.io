@@ -1,0 +1,15 @@
+.card {
+	position: relative;
+	height: auto;
+	cursor: pointer;
+}
+
+.active-label {
+	position: absolute;
+	height: 11px;
+	width: 11px;
+	right: 15px;
+	top: 10px;
+	background: $blueLighten-1;
+	border-radius: 50%;
+}

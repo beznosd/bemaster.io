@@ -44,15 +44,15 @@ class ChangePassword extends Component {
 				<div className="row">
 					<div className="input-field col s12">
 						<input ref="oldPassword" id="oldPassword" type="password" className="validate" />
-						<label for="oldPassword">Old password</label>
+						<label htmlFor="oldPassword">Old password</label>
 					</div>
 					<div className="input-field col s12">
 						<input ref="newPassword" id="newPassword" type="password" className="validate" />
-						<label for="newPassword">New password</label>
+						<label htmlFor="newPassword">New password</label>
 					</div>
 					<div className="input-field col s12">
 						<input ref="repeatNewPassword" id="repeatNewPassword" type="password" className="validate" />
-						<label for="repeatNewPassword">Repeat new password</label>
+						<label htmlFor="repeatNewPassword">Repeat new password</label>
 					</div>
 					<div className="right-align input-field col s12">
 						<a onClick={this.changePassword.bind(this)} className="save-btn waves-effect waves-light btn btn-block green">Save</a>

@@ -29,8 +29,6 @@ class SignUp extends Component {
 			return false;
 		}
 
-		console.log(email);
-
 		Accounts.createUser({email, password}, (err) => {
 			if ( err ) {
 				Materialize.toast(err.reason, 3000);

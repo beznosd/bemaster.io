@@ -2,12 +2,12 @@
 import moment from 'moment';
 import React from 'react';
 import {Component} from 'react';
-import D3TimeAreaChart from './awesomeAreaChart.jsx';
-import D3TimeLineChart from './awesomeLineChart.jsx';
-import D3DonutChart from './awesomeDonutChart.jsx';
-import D3StackedChart from './awesomeStackedBarChart.jsx';
+import D3TimeAreaChart from './D3TimeAreaChart.jsx';
+import D3TimeLineChart from './D3TimeLineChart.jsx';
+import D3DonutChart from './D3DonutChart.jsx';
+import D3StackedChart from './D3StackedChart.jsx';
 
-class Page extends Component {
+class AwesomeChartsContainer extends Component {
   render(){
     return (
       <div className="col s12">
@@ -258,4 +258,4 @@ class SubContainer extends Component {
   }
 }
 
-export default Page;
+export default AwesomeChartsContainer;

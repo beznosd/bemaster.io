@@ -1,18 +1,20 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
-import Tabs from './masterboard/Tabs.jsx';
-import TimerButton from './masterboard/TimerButton.jsx';
-import Activities from './masterboard/Activities.jsx'
-import CurrentProgress from './masterboard/CurrentProgress.jsx';
+import Tabs from './tabs/Tabs.jsx';
+import TimerButton from './timer/TimerButton.jsx';
+import Activities from './activities/Activities.jsx'
+import Stats from './stats/Stats.jsx';
 
-import { TimerTime } from '../../api/TimerTime.js';
-import { UserActivities } from '../../api/Activities.js';
+import { TimerTime } from './../../../../api/TimerTime.js';
+import { UserActivities } from './../../../../api/Activities.js';
 
 class MasterBoard extends Component {
 
 	constructor(props) {
 		super(props);
+
+		this.showElement = this.showElement.bind(this);
 
         this.state = {
             timer: true,
@@ -44,9 +46,9 @@ class MasterBoard extends Component {
 				/>
 				
 				{this.state.activities ? <Activities /> : ''}
-				{this.state.currentProgress ? <CurrentProgress timerTime={this.props.timerTime}/> : ''}
+				{this.state.currentProgress ? <Stats timerTime={this.props.timerTime}/> : ''}
 
-				<Tabs showElement={this.showElement.bind(this)} />
+				<Tabs showElement={this.showElement} />
 			</div>
 		);
 
