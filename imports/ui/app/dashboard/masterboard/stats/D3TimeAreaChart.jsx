@@ -111,7 +111,7 @@ class D3TimeAreaChart extends Component {
       'cardinal-close'
     ];
 
-    this.transform = `translate${this.props.margin.left}, ${this.props.margin.top})`;
+    this.transform = `translate(${this.props.margin.left}, ${this.props.margin.top})`;
   }
 
   createElements(element, i) {

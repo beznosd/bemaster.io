@@ -56,7 +56,7 @@ class D3Grid extends Component {
   render() {
     const translate = `translate(0, ${this.props.h})`;
     return (
-      <g className={this.props.className} transform={this.props.gridType === 'x' ? translate: ''}></g>
+      <g className={this.props.className} transform={this.props.gridType === 'x' ? translate : ''}></g>
     );
   }
 }
@@ -88,7 +88,7 @@ class D3StackedChart extends Component {
         .domain([0, d3.max(this.stacked[this.stacked.length - 1], d => d.y0 + d.y)])
         .nice();
 
-    this.transform = `translate(${this.props.margin.left}, ${this.props.margin.top}`;
+    this.transform = `translate(${this.props.margin.left}, ${this.props.margin.top})`;
   }
 
   createElements(element, i) {

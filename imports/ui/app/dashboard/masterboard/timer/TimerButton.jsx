@@ -4,193 +4,182 @@ import { Meteor } from 'meteor/meteor';
 import classnames from 'classnames';
 
 class TimerButton extends Component {
+  constructor(props) {
+    super(props);
 
-	constructor(props) {
-		super(props);
+    this.state = {
+      ticking: false,
+      ms: 0,
+    };
+  }
 
-        this.state = {
-            ticking: false,
-            ms: 0,
-        };
-	}
+  // update data on all clients' components
+  componentWillReceiveProps(nextProps) {
+    this.setState({ ticking: nextProps.userActivities[0].ticking });
+    this.setState({ ms: nextProps.userActivities[0].total_time });
 
-	getSeconds(ms) {
-		return Math.floor(ms / 1000) - (this.getMinutes(ms) * 60) - (this.getHours(ms) * 3600);
-	}
+    if (this.getHours(nextProps.userActivities[0].total_time) > 0) {
+      this.minimizeNumsFont();
+    }
+  }
 
-	getMinutes(ms) {
-		// 60000 = 1000ms * 60s
-		return Math.floor(ms / 60000) - (this.getHours(ms) * 60);
-	}
+  getSeconds(ms) {
+    return Math.floor(ms / 1000) - (this.getMinutes(ms) * 60) - (this.getHours(ms) * 3600);
+  }
 
-	getHours(ms) {
-		// 3600000 = 1000ms * 60s * 60s
-		return Math.floor(ms / 3600000);
-	}
+  getMinutes(ms) {
+    // 60000 = 1000ms * 60s
+    return Math.floor(ms / 60000) - (this.getHours(ms) * 60);
+  }
 
-	// minimeze font of nums if hours was appeared inside the timer
-	minimizeNumsFont() {
-		$( this.refs['timerNums'] ).css({'font-size':'4rem', 'height':'35%'});
-	}
+  getHours(ms) {
+    // 3600000 = 1000ms * 60s * 60s
+    return Math.floor(ms / 3600000);
+  }
 
-	// run or pause timer
-	timer() {
+  // minimeze font of nums if hours was appeared inside the timer
+  minimizeNumsFont() {
+    $(this.refs['timerNums']).css({ 'font-size': '4rem', 'height': '35%' });
+  }
 
-		if ( this.state.ticking ) {
+  // run or pause timer
+  timer() {
+    if (this.state.ticking) {
+      window.i = Meteor.setInterval(function() {
+        if (!this.state.ticking) {
+          Meteor.call('userActivities.switchActivity', this.props.userActivities[0]._id, this.state.ticking);
+          Meteor.call('userActivity.trackTime', this.props.userActivities[0]._id, this.state.ms);
 
-			window.i = Meteor.setInterval(function(){
+          Meteor.clearInterval(window.i);
+          return;
+        }
 
-				if (!this.state.ticking) {
-					Meteor.call('userActivities.switchActivity', this.props.userActivities[0]._id, this.state.ticking);
-					Meteor.call('userActivity.trackTime', this.props.userActivities[0]._id, this.state.ms);
+        const ms = this.state.ms + 1000;
+        this.setState({ ms });
 
-					Meteor.clearInterval(window.i);
-					return;
-				}
+        Meteor.call('userActivities.switchActivity', this.props.userActivities[0]._id, this.state.ticking);
+        Meteor.call('userActivity.trackTime', this.props.userActivities[0]._id, this.state.ms);
+      }.bind(this), 1000);
+    } else {
+      Meteor.call('userActivities.switchActivity', this.props.userActivities[0]._id, this.state.ticking);
+      Meteor.call('userActivity.trackTime', this.props.userActivities[0]._id, this.state.ms);
 
-				let ms = this.state.ms + 1000;
-				this.setState({ ms: ms });
+      Meteor.clearInterval(window.i);
+    }
+  }
 
-				Meteor.call('userActivities.switchActivity', this.props.userActivities[0]._id, this.state.ticking);
-				Meteor.call('userActivity.trackTime', this.props.userActivities[0]._id, this.state.ms);
+  // run function timer() and show/hide neccessary elements
+  toggleTimer() {
+    // update state with data from DB before start timer
+    this.updateComponentStates();
 
-			}.bind(this), 1000);
+    this.state.ticking = !this.state.ticking;
 
-		} else {
-			Meteor.call('userActivities.switchActivity', this.props.userActivities[0]._id, this.state.ticking);
-			Meteor.call('userActivity.trackTime', this.props.userActivities[0]._id, this.state.ms);
+    Meteor.call('userActivities.switchActivity', this.props.userActivities[0]._id, this.state.ticking);
+    Meteor.call('userActivity.trackTime', this.props.userActivities[0]._id, this.state.ms);
 
-			Meteor.clearInterval(window.i);
-		}
+    this.timer();
+  }
 
-	}
+  // Update time states to recently logged time if it exists in db
+  updateComponentStates() {
+    if (this.props.userActivities[0] && this.props.userActivities[0].total_time) {
+      this.setState({ ms: this.props.userActivities[0].total_time });
+    }
+  }
 
-	// run function timer() and show/hide neccessary elements
-	toggleTimer() {
+  renderTime() {
+    // at first launch render initial time (0ms)
+    let ms = this.state.ms;
+    // check for db data and apply it, if exists
+    if (this.props.userActivities[0]) {
+      ms = this.props.userActivities[0].total_time;
+    }
 
-		// update state with data from DB before start timer
-		this.updateComponentStates();
+    let seconds = this.getSeconds(ms);
+    let minutes = this.getMinutes(ms);
+    let hours = this.getHours(ms);
 
-		this.state.ticking = !this.state.ticking;
+    seconds = (seconds >= 1) ? seconds : 0;
+    minutes = (minutes >= 1) ? minutes : 0;
+    hours = (hours >= 1) ? hours : 0;
 
-		Meteor.call('userActivities.switchActivity', this.props.userActivities[0]._id, this.state.ticking);
-		Meteor.call('userActivity.trackTime', this.props.userActivities[0]._id, this.state.ms);
+    return (
+      <span>
+        {hours ? `${hours}:` : ''}
+        {hours ? ((minutes < 10) ? `0${minutes}:` : `${minutes}:`) : (minutes ? `${minutes}:` : '')}
+        {(seconds < 10) ? `0${seconds}` : seconds}
+      </span>
+    );
+  }
 
-		this.timer();
+  render() {
+    const timerButtonClasses = classnames({
+      hide: !this.props.hideButton,
+      'center-align': true,
+      'timer-block': true
+    });
 
-	}
+    let timerNumsClasses,
+      timerPauseTimeClasses,
+      timerStartArrowClasses;
 
-	//this.props.userActivities
+    if (this.props.userActivities[0]) {
+      timerNumsClasses = classnames({
+        hidden: !this.props.userActivities[0].ticking,
+        'display-block': this.props.userActivities[0].ticking,
+        'timer-nums': true,
+        animated: true,
+        zoomIn: true
+      });
 
-	// update data on all clients' components
-	componentWillReceiveProps(nextProps) {
-		this.setState({ ticking: nextProps.userActivities[0].ticking });
-		this.setState({ ms: nextProps.userActivities[0].total_time });
+      timerPauseTimeClasses = classnames({
+        hidden: this.props.userActivities[0].ticking,
+        'display-block': !this.props.userActivities[0].ticking,
+        'timer-pause_time': true,
+        animated: true,
+        zoomIn: true
+      });
 
-		if ( this.getHours(nextProps.userActivities[0].total_time) > 0) {
-			this.minimizeNumsFont();
-		}
-	}
+      timerStartArrowClasses = classnames({
+        hidden: this.props.userActivities[0].ticking,
+        'display-block': !this.props.userActivities[0].ticking,
+        'timer-start_arrow': true,
+        animated: true,
+        zoomIn: true
+      });
+    } else {
+      timerNumsClasses = classnames({
+        hidden: true,
+        'timer-nums': true,
+      });
 
-	// Update time states to recently logged time if it exists in db
-	updateComponentStates() {
-		if ( this.props.userActivities[0] && this.props.userActivities[0].total_time) {
-			this.setState({ ms: this.props.userActivities[0].total_time });
-		}
-	}
+      timerPauseTimeClasses = classnames({
+        hidden: true,
+        'timer-pause_time': true,
+      });
 
-	renderTime() {
+      timerStartArrowClasses = classnames({
+        'timer-start_arrow': true,
+      });
+    }
 
-		// at first launch render initial time (0ms)
-		let ms = this.state.ms;
-		// check for db data and apply it, if exists
-		if ( this.props.userActivities[0] ) {
-			ms = this.props.userActivities[0].total_time;
-		}
-
-		let seconds = this.getSeconds(ms);
-		let minutes = this.getMinutes(ms);
-		let hours = this.getHours(ms);
-
-		seconds = ( seconds >= 1 ) ? seconds : 0 ;
-		minutes = ( minutes >= 1 ) ? minutes : 0 ;
-		hours = ( hours >= 1 ) ? hours : 0 ;
-
-		return (
-			<span>{hours ? hours + ':' : ''}
-			{hours ? ( (minutes < 10) ? '0' + minutes + ':' : minutes + ':' ) : ( minutes ? minutes + ':' : '' )}
-			{(seconds < 10) ? '0'+seconds : seconds}</span>
-		);
-
-	}
-
-	render() {
-
-		const timerButtonClasses = classnames({
-			hide: !this.props.hideButton,
-			'center-align': true,
-			'timer-block': true
-		});
-
-		if (this.props.userActivities[0]) {
-
-			var timerNumsClasses = classnames({
-				hidden: !this.props.userActivities[0].ticking,
-				'display-block': this.props.userActivities[0].ticking,
-				'timer-nums': true,
-				animated: true,
-				zoomIn: true
-			});
-			var timerPauseTimeClasses = classnames({
-				hidden: this.props.userActivities[0].ticking,
-				'display-block': !this.props.userActivities[0].ticking,
-				'timer-pause_time': true,
-				animated: true,
-				zoomIn: true
-			});
-			var timerStartArrowClasses = classnames({
-				hidden: this.props.userActivities[0].ticking,
-				'display-block': !this.props.userActivities[0].ticking,
-				'timer-start_arrow': true,
-				animated: true,
-				zoomIn: true
-			});
-
-		} else {
-
-			var timerNumsClasses = classnames({
-				hidden: true,
-				'timer-nums': true,
-			});
-			var timerPauseTimeClasses = classnames({
-				hidden: true,
-				'timer-pause_time': true,
-			});
-			var timerStartArrowClasses = classnames({
-				'timer-start_arrow': true,
-			});
-
-		}
-
-		return (
-			
-			<div className={timerButtonClasses}>
-				<span onClick={this.toggleTimer.bind(this)} className="timer">
-					<span ref="timerNums" className={timerNumsClasses} style={{display: ''}}>
-						{this.renderTime()}
-					</span>
-					<div ref="timerStartArrow" className={timerStartArrowClasses} style={{display: ''}}>
-						<i className="triangle"></i>
-					</div>
-					<span ref="timerPauseTime" className={timerPauseTimeClasses} style={{display: ''}}>
-						{this.state.ms !== 0 ? this.renderTime() : ''}
-					</span>
-				</span>
-			</div>
-		);
-
-	}
-
+    return (
+      <div className={timerButtonClasses}>
+        <span onClick={this.toggleTimer.bind(this)} className="timer">
+          <span ref="timerNums" className={timerNumsClasses} style={{ display: '' }}>
+            {this.renderTime()}
+          </span>
+          <div ref="timerStartArrow" className={timerStartArrowClasses} style={{ display: '' }}>
+            <i className="triangle"></i>
+          </div>
+          <span ref="timerPauseTime" className={timerPauseTimeClasses} style={{ display: '' }}>
+            {this.state.ms !== 0 ? this.renderTime() : ''}
+          </span>
+        </span>
+      </div>
+    );
+  }
 }
 
 export default TimerButton;
